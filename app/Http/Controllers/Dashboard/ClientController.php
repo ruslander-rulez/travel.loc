@@ -63,7 +63,7 @@ class ClientController extends Controller
         $this->validate( $request,  [
             "id" => "required|numeric|exists:" . Client::ENTITY_TABLE . ",id",
 			"name" => "required|string|max:191",
-			"email" => "string|email|max:191",
+			"email" => "nullable|string|email|max:191",
             "phone" => "string|max:191",
 			"passport" => "required|string|max:191|unique:" . Client::ENTITY_TABLE . ",passport," . $request->get("id"),
             "nationality" => "required|string|max:191",

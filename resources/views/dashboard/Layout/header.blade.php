@@ -3,8 +3,13 @@
     <div class="page-header-inner ">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-            <a href="index.html">
-                <img src="{{ asset("dashboard/layouts/layout/img/logo.png") }}" alt="logo" class="logo-default" /> </a>
+            <a href="#">
+                <img
+                    src="{{ asset("dashboard/layouts/layout/img/logo.png") }}"
+                    alt="logo"
+                    class="logo-default"
+                    style="width: 133px; transform: translateY(-18px) translateX(5px);"
+                /> </a>
             <div class="menu-toggler sidebar-toggler">
                 <span></span>
             </div>

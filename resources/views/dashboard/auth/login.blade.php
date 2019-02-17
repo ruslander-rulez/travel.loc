@@ -10,8 +10,8 @@
 @section("content")
     <!-- BEGIN LOGO -->
     <div class="logo">
-        <a href="index.html">
-            <img src="{{asset("/dashboard/pages/img/logo-big.png")}}" alt="" /> </a>
+        <a href="#">
+            <img src="{{asset("/dashboard/pages/img/logo-big.png")}}" alt="" style="width: 236px"/> </a>
     </div>
     <!-- END LOGO -->
     <!-- BEGIN LOGIN -->
