@@ -1,0 +1,2 @@
+
+//$this->app->singleton(%1$sRepository::class, %1$sRepositoryEloquent::class);

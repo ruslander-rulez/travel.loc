@@ -1,0 +1,7 @@
+<?php
+namespace App\Domain\%1$s;
+
+class %1$sFilter
+{
+
+}
