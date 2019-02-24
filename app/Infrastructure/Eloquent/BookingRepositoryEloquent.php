@@ -32,8 +32,18 @@ class BookingRepositoryEloquent implements BookingRepository
     {
         $qb =  $this->model->newQuery();
 		$qb->where(function ($query) use ($bookingFilter) {
-            //filter
+
+			if ($bookingFilter->arrivalDateFrom()) {
+				$query->where("arrival_date", ">=", $bookingFilter->arrivalDateFrom());
+			}
+
+			if ($bookingFilter->arrivalDateTo()) {
+				$query->where("arrival_date", "<=", $bookingFilter->arrivalDateTo());
+			}
         });
+		if ($sort) {
+			$qb->orderBy($sort->field(), $sort->direction());
+		}
             $qb->with(["ship", "leader", "tourists"]);
         if ($pagination) {
             $maxItems =  $qb->count();

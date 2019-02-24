@@ -29,26 +29,6 @@
               date:[],
               shortcuts: [
                   {
-                      text: "Сегодня",
-                      start: new Date(),
-                      end: new Date()
-                  },
-                  {
-                      text: "Вчера",
-                      start: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1),
-                      end: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
-                  },
-                  {
-                      text: "Текущая неделя",
-                      start: thisWeekFirstday,
-                      end: new Date()
-                  },
-                  {
-                      text: "Прошлая неделя",
-                      start: new Date(prevWeekFirstday.getFullYear(), prevWeekFirstday.getMonth(),prevWeekFirstday.getDate()),
-                      end: new Date(prevWeekLastday.getFullYear(), prevWeekLastday.getMonth(),prevWeekLastday.getDate())
-                  },
-                  {
                       text: "Текущий месяц",
                       start: new Date(now.getFullYear(), lastDayOfMonth.getMonth(),1),
                       end: new Date()
@@ -57,11 +37,6 @@
                       text: "Прошлый месяц",
                       start: new Date(now.getFullYear()-i, pevMonthLastDayOfMonth.getMonth(),1),
                       end: new Date(now.getFullYear()-i, now.getMonth(), 0)
-                  },
-                  {
-                      text: "Весь период",
-                      start: new Date(2010, 1, 1),
-                      end: new Date()
                   }
               ]
           }

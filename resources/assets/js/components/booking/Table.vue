@@ -39,6 +39,12 @@
                         </div>
                     </div>
                     <div class="col-md-6">
+                        <div class="col-md-5 button-type-line">
+                            <range-datepicker
+                                    :inputDate="[this.filter.dateFrom, this.filter.dateTo]"
+                                    v-on:change="applyDateFilter"
+                            ></range-datepicker>
+                        </div>
              <!--           <div class="btn-group pull-right">
                             <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">Tools
                                 <i class="fa fa-angle-down"></i>
@@ -93,16 +99,30 @@
                         <thead>
                         <tr role="row">
 
-                            <th tabindex="0" rowspan="1" colspan="1"
-                                >
+                            <th
+                                tabindex="0"
+                                rowspan="1"
+                                colspan="1"
+
+                                v-bind:class="sortingField('id')"
+                                v-on:click="changeSort('id')"
+                            >
                             </th>
                             <th class="" tabindex="0" rowspan="1" colspan="1"
                                 > Информация
                             </th>
-                            <th class="" tabindex="0" rowspan="1" colspan="1"
-                                > Дата прихода
+                            <th
+                                v-bind:class="sortingField('arrival_date')"
+                                v-on:click="changeSort('arrival_date')"
+                                tabindex="0"
+                                rowspan="1"
+                                colspan="1"
+                            > Дата прихода
                             </th>
-                            <th class="" tabindex="0" rowspan="1" colspan="1"
+                            <th
+                                v-bind:class="sortingField('departure_date')"
+                                v-on:click="changeSort('departure_date')"
+                                class="" tabindex="0" rowspan="1" colspan="1"
                                 > Дата отправки
                             </th>
                             <th class="" tabindex="0" rowspan="1" colspan="1"
@@ -146,10 +166,18 @@
 </template>
 
 <script>
+
+    import * as helper from "../../helper.js"
+
     export default {
         data() {
             return {
                 showNewForm : false,
+                filter: {
+                    dateFrom: null,
+                    dateTo: null,
+                    search: null
+                },
                 defaultBooking: {
                     id: null,
                     arrival_date: "",
@@ -176,10 +204,46 @@
                         val: 100
                     }
                 ],
+                sort: {
+                    field: "arrival_date",
+                    direction: "DESC"
+                },
                 alertMessage: []
             }
         },
         methods: {
+
+            applyDateFilter: function (params) {
+                this.filter.dateFrom = params[0]
+                this.filter.dateTo = params[1]
+                this.filter.dateTo.setHours(23,59,59,59);
+                this.page = 1;
+                this.getData();
+            },
+            changeSort: function (field) {
+                if (this.sort.field == field) {
+                    if (this.sort.direction == "ASC") {
+                        this.sort.direction = "DESC"
+                    } else {
+                        this.sort.direction = "ASC"
+                    }
+                } else {
+                    this.sort = {
+                        field: field,
+                        direction: "ASC"
+                    }
+                }
+                this.getData();
+            },
+            sortingField: function (field) {
+                if (this.sort.field == field) {
+                    if (this.sort.direction == "ASC") {
+                        return "sorting_asc"
+                    }
+                    return "sorting_desc"
+                }
+                return "sorting"
+            },
             showAlert: function(message) {
                 this.alertMessage.push(message)
             },
@@ -189,7 +253,14 @@
             },
             getData: function () {
                 axios
-                    .get(laroute.route('root.booking.list', {}), {params: {page: this.page, perPage: this.perPage}})
+                    .get(laroute.route('root.booking.list', {}), {params: {
+                        page: this.page,
+                        sortField: this.sort.field,
+                        dateFrom: helper.presentDateToString(this.filter.dateFrom),
+                        dateTo: helper.presentDateToString(this.filter.dateTo),
+                        sortDirection: this.sort.direction,
+                        perPage: this.perPage
+                    }})
                     .then((response) => {
 
                         this.bookings = response.data;
@@ -209,6 +280,13 @@
         },
         mounted() {
             this.perPage = this.perPageVariables[this.perPageVariables.length - 1].val;
+            this.filter.dateTo = new Date();
+            this.filter.dateTo.setDate(new Date().getDate() + 200);
+
+            this.filter.dateTo.setHours(23,59,59);
+            this.filter.dateFrom = new Date();
+            this.filter.dateFrom.setDate(new Date().getDate() - 200);
+            this.filter.dateFrom.setHours(0, 0, 0, 0);
             this.getData();
         },
         name: "BookingTable",

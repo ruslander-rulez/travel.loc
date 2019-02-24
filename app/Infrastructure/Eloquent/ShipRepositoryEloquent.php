@@ -34,6 +34,9 @@ class ShipRepositoryEloquent implements ShipRepository
 		$qb->where(function ($query) use ($adviceFilter) {
             //filter
         });
+		if ($sort) {
+			$qb->orderBy($sort->field(), $sort->direction());
+		}
           //  $qb->with("relationName");
         if ($pagination) {
             $maxItems =  $qb->count();

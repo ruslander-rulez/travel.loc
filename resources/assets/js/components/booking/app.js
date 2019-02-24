@@ -22,6 +22,7 @@ window.Vue.use(ToggleButton);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('range-datepicker', require('../RangePicker.vue').default);
 
 Vue.component('pagination', require('../Pagination.vue').default);
 Vue.component('error-block', require('../ErrorFormGroupBlock.vue').default);

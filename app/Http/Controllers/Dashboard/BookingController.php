@@ -16,6 +16,7 @@ use App\Domain\Core\Pagination;
 use App\Domain\Ship\Ship;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 
 class BookingController extends Controller
 {
@@ -33,13 +34,28 @@ class BookingController extends Controller
     {
         $this->validate($request, [
             "perPage" => "numeric|min:1",
-            "page" => "numeric|min:1"
+            "page" => "numeric|min:1",
+
+			"dateFrom" => "string",
+			"dateTo" => "string",
+
+			"sortField" => "string",
+			"sortDirection" => "string|in:ASC,DESC"
         ]);
         $filter = new BookingFilter();
 
-        $sort = new Sort();
-        $sort->setField("name");
-        $sort->setDirection("ASC");
+
+		if ($request->get("dateFrom")) {
+			$filter->setArrivalDateFrom(Carbon::parse($request->get("dateFrom")));
+		}
+		if ($request->get("dateTo")) {
+			$filter->setArrivalDateTo(Carbon::parse($request->get("dateTo")));
+		}
+
+
+		$sort = new Sort();
+        $sort->setField($request->get("sortField", "id"));
+        $sort->setDirection($request->get("sortDirection", "DESC"));
 
         $pagination = new Pagination($request->get("page"), $request->get("perPage"));
 
