@@ -8,7 +8,7 @@
         <td> {{ client.phone}}</td>
         <td> {{ client.nationality}}</td>
         <td>
-            <button class="bnt btn-md btn-default" v-on:click="editPopup=true"><i class="fa fa-edit"></i></button>
+            <button class="btn btn-sm btn-default" v-on:click="editPopup=true"><i class="fa fa-edit"></i></button>
 
             <client-edit v-if="editPopup" v-on:close="editPopup=false" :inputEntity="client" v-on:updated="updated">
             </client-edit>

@@ -13,15 +13,28 @@
         <td>
             <div v-for="tourist in booking.tourists">{{ tourist.name }}</div>
         </td>
-        <td>
-            <button class="bnt btn-md btn-default" v-on:click="editPopup=true"><i class="fa fa-edit"></i></button>
-
-            <booking-edit v-if="editPopup" v-on:close="editPopup=false" :inputEntity="booking" v-on:updated="updated">
-            </booking-edit>
+        <td class="actions">
+            <button class="btn btn-sm btn-default" v-on:click="editPopup=true" title="Редактировать">
+                <i class="fa fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-warning" v-on:click="showDownloadTourTicketPopup=true" title="Скачать туртикеты">
+                <i class="fa fa-download"></i>
+            </button>
 
             <delete-button
                     @deleteItem="deleteItem"
             />
+
+
+            <booking-edit v-if="editPopup" v-on:close="editPopup=false" :inputEntity="booking" v-on:updated="updated"/>
+
+            <download-tourtickets
+                v-if="showDownloadTourTicketPopup"
+                v-on:close="showDownloadTourTicketPopup=false"
+                :inputEntity="booking"
+            >
+            </download-tourtickets>
+
         </td>
     </tr>
 </template>
@@ -36,6 +49,7 @@
         data() {
             return {
                 bufer: {},
+                showDownloadTourTicketPopup: false,
                 booking: {
                     color: "#322332",
                     ship: {}
@@ -85,5 +99,7 @@
 </script>
 
 <style scoped>
-
+ .actions>* {
+     margin: 6px 0;
+ }
 </style>

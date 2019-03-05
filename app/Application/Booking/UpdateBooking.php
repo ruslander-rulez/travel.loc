@@ -14,10 +14,10 @@ class UpdateBooking implements Command
 	private $group_name;
 	private $additional_info;
 	private $arrival_date;
-	private $evening_program;
 	private $departure_date;
 	private $tourists;
 	private $leader_id;
+	private $tourticket_settings;
 
 	/**
 	 * UpdateAdvice constructor.
@@ -27,9 +27,9 @@ class UpdateBooking implements Command
 	 * @param $additional_info
 	 * @param $arrival_date
 	 * @param $departure_date
-	 * @param $evening_program
 	 * @param $tourists
 	 * @param $leader_id
+	 * @param $tourticket_settings
 	 */
     public function __construct(
         $id,
@@ -38,19 +38,19 @@ class UpdateBooking implements Command
         $additional_info,
         $arrival_date,
         $departure_date,
-        $evening_program,
 		$tourists,
-		$leader_id
+		$leader_id,
+		$tourticket_settings
     ) {
         $this->id = $id;
 		$this->ship_id = $ship_id;
 		$this->group_name = $group_name;
 		$this->additional_info = $additional_info;
 		$this->arrival_date = $arrival_date;
-		$this->evening_program = $evening_program;
 		$this->departure_date = $departure_date;
 		$this->tourists = $tourists;
 		$this->leader_id = $leader_id;
+		$this->tourticket_settings = $tourticket_settings;
 	}
 
 	/**
@@ -96,14 +96,6 @@ class UpdateBooking implements Command
 	/**
 	 * @return mixed
 	 */
-	public function evening_program()
-	{
-		return $this->evening_program;
-	}
-
-	/**
-	 * @return mixed
-	 */
 	public function departure_date()
 	{
 		return $this->departure_date;
@@ -123,5 +115,13 @@ class UpdateBooking implements Command
 	public function leader_id()
 	{
 		return $this->leader_id;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function tourticket_settings()
+	{
+		return $this->tourticket_settings;
 	}
 }

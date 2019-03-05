@@ -53,6 +53,8 @@ Route::group(['middleware' => 'auth.as.admin', "prefix" => "/root", "as" => "roo
         Route::put("/set-color", ["uses" => "BookingController@setColor", "as" => "booking.set-color"]);
         Route::post("/", ["uses" => "BookingController@create", "as" => "booking.create"]);
         Route::delete("/", ["uses" => "BookingController@delete", "as" => "booking.delete"]);
+
+        Route::get("generate-tourtickets", ["uses" => "BookingController@GenerateTourtickets", "as" => "booking.generate-tourtickets"]);
     });
 
     Route::group(["prefix" => "/attachment"], function () {

@@ -43,11 +43,11 @@ class CreateBookingHandler implements Handler
 		$ship = $this->shipRepository->byId($command->ship_id());
 		$booking->color = "#ffffff";
 		$booking->leader_id = $command->leader_id();
+		$booking->tourticket_settings = $command->tourticket_settings();
 		$booking->group_name = $command->group_name();
 		$booking->additional_info = $command->additional_info();
 		$booking->arrival_date = Carbon::createFromFormat("Y-m-d", $command->arrival_date());
 		$booking->departure_date = Carbon::createFromFormat("Y-m-d", $command->departure_date());
-		$booking->evening_program = $command->evening_program();
 		$booking->ship()->associate($ship);
 
 		$this->bookingRepository->store($booking);

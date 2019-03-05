@@ -31,6 +31,13 @@
                                    v-on:click.prevent="tab=2"
                                 >Группа</a>
                             </li>
+                            <li
+                                v-bind:class="tab === 3 ? 'active' : ''"
+                            >
+                                <a href="#"
+                                   v-on:click.prevent="tab=3"
+                                >Настройка туртикетов</a>
+                            </li>
                         </ul>
                     </div>
                     <div class="portlet-body">
@@ -90,19 +97,6 @@
                                     <error-block :errors="errors['departure_date']" />
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-md-2 control-label">Вечерняя программа</label>
-                                <div class="col-md-10" v-bind:class="errors['evening_program'] !== undefined ? 'has-error' : ''">
-                                    <toggle-button @change="setEveningProgram"
-                                                   :value="!!+booking.evening_program"
-                                                   :sync="true"
-                                                   :height="30"
-                                                   :width="65"
-                                                   :labels="{checked: 'ДА', unchecked: 'НЕТ'}"
-                                    />
-                                    <error-block :errors="errors['evening_program']" />
-                                </div>
-                            </div>
                         </div>
                         <div class="div" v-if="tab===2">
                             <div class="row">
@@ -118,7 +112,7 @@
                                 <label class="col-md-2 control-label">Состав группы</label>
                                 <div class="col-md-10">
                                     <div class="row" v-for="(tourist, index) in booking.tourists">
-                                        <div class="col-md-11 group-item">
+                                        <div class="col-md-10 group-item">
                                             <div class="row">
                                                 <div class="col-md-10">
                                                     <div>Имя - <b>{{ tourist.name }}</b> </div>
@@ -140,10 +134,106 @@
                                             </div>
 
                                         </div>
-                                        <div class="col-md-1">
+                                        <div class="col-md-2">
                                             <delete-button
                                                     @deleteItem="deleteTourist(index)"
                                             />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="div" v-if="tab===3">
+                            <div
+                                v-for="setting in tourTicketSettings"
+                                class="row"
+                                style="margin-bottom: 10px;"
+                            >
+                                <div class="col-md-3">
+                                    <p style="text-decoration: underline">
+                                        {{ setting.date }}
+                                    </p>
+                                    <p class="form-group">
+                                        <label>Вемя выхода</label>
+                                        <vue-timepicker
+                                                format="HH:mm"
+                                                :minute-interval="5"
+                                                hide-clear-button
+                                                v-model='setting.time'>
+                                        </vue-timepicker>
+                                    </p>
+                                    <p class="form-group">
+                                        <label>Название программы</label>
+                                        <input
+                                            class="form-control"
+                                            type="text"
+                                            v-model='setting.programName'
+                                        />
+                                    </p>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group row">
+                                        <label class="col-md-12 control-label">Вечерняя программа</label>
+                                        <div class="col-md-12">
+                                            <toggle-button
+                                                    v-model="setting.eveningProgram"
+                                                    :height="30"
+                                                    :width="65"
+                                                    :labels="{checked: 'ДА', unchecked: 'НЕТ'}"
+                                            />
+                                        </div>
+                                    </div>
+                                <div v-if="setting.eveningProgram">
+                                    <p class="form-group">
+                                        <label>Вемя выхода вечером</label>
+                                        <vue-timepicker
+                                                format="HH:mm"
+                                                :minute-interval="5"
+                                                hide-clear-button
+                                                v-model='setting.eveningTime'>
+                                        </vue-timepicker>
+                                    </p>
+                                    <p class="form-group">
+                                        <label>Название вечерней программы</label>
+                                        <input
+                                                class="form-control"
+                                                type="text"
+                                                v-model='setting.eveningProgramName'
+                                        />
+                                    </p>
+                                </div>
+
+                                </div>
+                                <div class="col-md-6 group-item" style="min-height: 112px;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p style="margin: 5px">Основной выход</p>
+                                            <ul style="list-style: none; padding-inline-start: 0px;">
+                                            <li v-for="tourist in booking.tourists">
+                                                <label>
+                                                    <input
+                                                            type="checkbox"
+                                                            :checked="!(setting.excludeIds.includes(tourist.id))"
+                                                            @change="changeExcludes(setting, tourist.id)"
+                                                    > {{ tourist.name }}
+                                                </label>
+                                            </li>
+                                        </ul>
+                                        </div>
+
+                                        <div class="col-md-6" v-if="setting.eveningProgram">
+                                            <p style="margin: 5px">Вечерний выход</p>
+                                            <ul style="list-style: none; padding-inline-start: 0px;">
+                                            <li v-for="tourist in booking.tourists">
+                                                <label>
+                                                    <input
+                                                            type="checkbox"
+                                                            :checked="!(setting.excludeEveningIds.includes(tourist.id))"
+                                                            @change="changeExcludes(setting, tourist.id, true)"
+                                                    > {{ tourist.name }}
+                                                </label>
+                                            </li>
+                                        </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -165,10 +255,12 @@
 <script>
     import DatePicker from 'vue2-datepicker'
     import moment from 'moment'
+    import VueTimepicker from 'vue2-timepicker'
 
     export default {
         components: {
-            DatePicker
+            DatePicker,
+            VueTimepicker
         },
         data() {
             return {
@@ -176,6 +268,7 @@
                 tab: 1,
                 booking: {},
                 errors: {},
+                tourTicketSettings: [],
                 leaderArray:[],
                 showNewTouristForm: false
             }
@@ -190,8 +283,82 @@
             this.booking.departure_date = (this.booking.departure_date.split(" "))[0]
             this.booking.arrival_date = (this.booking.arrival_date.split(" "))[0]
             this.leaderArray.push(this.booking.leader_id)
+
+            this.calculateTourTicketSettings()
         },
         methods: {
+            changeExcludes: function (setting, clientId, evening = false) {
+            if (evening) {
+                let index = setting.excludeEveningIds.indexOf(clientId);
+                if (index > -1) {
+                    setting.excludeEveningIds.splice(index, 1);
+                } else {
+                    setting.excludeEveningIds.push(clientId)
+                }
+            } else {
+                let index = setting.excludeIds.indexOf(clientId);
+                if (index > -1) {
+                    setting.excludeIds.splice(index, 1);
+                } else {
+                    setting.excludeIds.push(clientId)
+                }
+            }
+
+            },
+            calculateTourTicketSettings: function() {
+                let tourtiketArray = [];
+                let momentArrival = moment(this.booking.arrival_date, "YYYY-MM-DD");
+                let momentDeparture = moment(this.booking.departure_date, "YYYY-MM-DD");
+                let settings = this.booking.tourticket_settings
+                if (!this.booking.tourticket_settings) {
+                    settings = []
+                }
+                while (momentArrival <= momentDeparture) {
+
+                    let time = {
+                        HH: "09",
+                        mm: "00"
+                    }
+                    let excludeIds = [];
+                    let excludeEveningIds = [];
+                    let programName = "";
+                    let eveningProgram = false;
+                    let eveningProgramName = "";
+                    let eveningTime = {
+                        HH: "17",
+                        mm: "00"
+                    };
+
+                    if (typeof settings[ momentArrival.format("YYYY-MM-DD")] !== "undefined") {
+                        time = settings[ momentArrival.format("YYYY-MM-DD")].time
+                        eveningTime = settings[ momentArrival.format("YYYY-MM-DD")].eveningTime
+                        excludeIds = settings[ momentArrival.format("YYYY-MM-DD")].excludeIds
+                        excludeEveningIds = settings[ momentArrival.format("YYYY-MM-DD")].excludeEveningIds
+                        programName = settings[ momentArrival.format("YYYY-MM-DD")].programName;
+                        eveningProgram = settings[ momentArrival.format("YYYY-MM-DD")].eveningProgram;
+                        eveningProgramName = settings[ momentArrival.format("YYYY-MM-DD")].eveningProgramName;
+                    }
+
+                    tourtiketArray.push({
+                        date: momentArrival.format("YYYY-MM-DD"),
+                        time: {
+                            HH: time.HH,
+                            mm: time.mm
+                        },
+                        eveningTime: {
+                            HH: eveningTime.HH,
+                            mm: eveningTime.mm
+                        },
+                        excludeIds: excludeIds,
+                        programName: programName,
+                        eveningProgram: eveningProgram,
+                        eveningProgramName: eveningProgramName,
+                        excludeEveningIds: excludeEveningIds
+                    })
+                    momentArrival = momentArrival.add(1, 'days')
+                }
+                this.tourTicketSettings = tourtiketArray;
+            },
             attachTourist: function(tourist) {
                 this.booking.tourists.push(tourist)
             },
@@ -208,10 +375,12 @@
                 this.booking.leader_id = leader.id
             },
             changeArrivalDate: function (date) {
-                this.booking.arrival_date = moment(date).format("YYYY-MM-DD")
+                this.booking.arrival_date = moment(date).format("YYYY-MM-DD");
+                this.calculateTourTicketSettings()
             },
             changeDepartureDate: function (date) {
                 this.booking.departure_date = moment(date).format("YYYY-MM-DD")
+                this.calculateTourTicketSettings()
             },
             changeShip: function(value) {
                 if (typeof value === "undefined") {
@@ -226,14 +395,27 @@
                     this.booking.ship_id = null
                 }
             },
-            setEveningProgram: function(val) {
-                this.booking.evening_program = val.value
+            prepareBookingForSave: function() {
+                let settings = {};
+                this.tourTicketSettings.forEach((element) => {
+                    settings[element.date] = {
+                        time: element.time,
+                        eveningTime: element.eveningTime,
+                        excludeIds: element.excludeIds,
+                        programName:  element.programName,
+                        eveningProgram: element.eveningProgram,
+                        eveningProgramName: element.eveningProgramName,
+                        excludeEveningIds: element.excludeEveningIds,
+                    }
+                })
+                this.booking.tourticket_settings = settings
             },
             close: function () {
                 this.$emit("close")
             },
             save: function (event) {
                 this.errors = {};
+                this.prepareBookingForSave();
                 if (this.booking.id !== null) {
                     window.HTTP.put(laroute.route('root.booking.save', {}), this.booking).then(response => {
                         if (response.status == 202) {

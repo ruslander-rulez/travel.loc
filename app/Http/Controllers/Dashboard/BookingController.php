@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Application\Booking\CreateBooking;
 use App\Application\Booking\DeleteBooking;
+use App\Application\Booking\GenerateTourtickets;
 use App\Application\Booking\GetBookingList;
 use App\Application\Booking\UpdateBooking;
 use App\Application\Booking\UpdateBookingColor;
@@ -75,10 +76,10 @@ class BookingController extends Controller
             "id" => "required|numeric|exists:" . Booking::ENTITY_TABLE . ",id",
             "ship_id" => "required|integer|exists:" . Ship::ENTITY_TABLE . ",id",
             "group_name" => "required|string|max:191",
+            "tourticket_settings" => "nullable|array",
             "additional_info" => "nullable|string|max:191",
             "arrival_date" => "required|string|date_format:\"Y-m-d\"",
             "departure_date" => "required|string|date_format:\"Y-m-d\"",
-            "evening_program" => "required|boolean",
 			"tourists" => "array",
 			"tourists.*.id" => "required|exists:" . Client::ENTITY_TABLE . ",id",
 			"leader_id" => "required|exists:" . Client::ENTITY_TABLE . ",id"
@@ -90,10 +91,9 @@ class BookingController extends Controller
             $request->get("additional_info"),
             $request->get("arrival_date"),
             $request->get("departure_date"),
-            $request->get("evening_program"),
 			$request->get("tourists", []),
-			$request->get("leader_id")
-
+			$request->get("leader_id"),
+			$request->get("tourticket_settings")
         ));
         return new Response([], Response::HTTP_ACCEPTED);
     }
@@ -128,10 +128,10 @@ class BookingController extends Controller
 			"additional_info" => "nullable|string|max:191",
 			"arrival_date" => "required|string|date_format:\"Y-m-d\"",
 			"departure_date" => "required|string|date_format:\"Y-m-d\"",
-			"evening_program" => "required|boolean",
+			"tourticket_settings" => "nullable|array",
 			"tourists" => "array",
 			"tourists.*.id" => "required|exists:" . Client::ENTITY_TABLE . ",id",
-			"leader_id" => "required|exists:" . Client::ENTITY_TABLE . ",id"
+			"leader_id" => "required|exists:" . Client::ENTITY_TABLE . ",id",
         ]);
 
          $this->dispatch(new CreateBooking(
@@ -140,9 +140,9 @@ class BookingController extends Controller
 			 $request->get("additional_info"),
 			 $request->get("arrival_date"),
 			 $request->get("departure_date"),
-			 $request->get("evening_program"),
 			 $request->get("tourists", []),
-			 $request->get("leader_id")
+			 $request->get("leader_id"),
+			 $request->get("tourticket_settings")
         ));
          return Response::create("", Response::HTTP_CREATED);
     }
@@ -160,5 +160,29 @@ class BookingController extends Controller
         $this->dispatch(new DeleteBooking($request->get("id")));
         return new Response([], Response::HTTP_ACCEPTED);
     }
+
+	/**
+	 * @param Request $request
+	 * @return Response
+	 * @throws \Illuminate\Validation\ValidationException
+	 */
+	public function generateTourTickets(Request $request)
+	{
+		$this->validate($request, [
+			"bookingId" => "required|integer|exists:" . Booking::ENTITY_TABLE . ",id",
+			"excludeIds" => "nullable|array",
+			"excludeIds.*" => "integer"
+		]);
+
+		$document = $this->dispatch(new GenerateTourtickets(
+			$request->get("bookingId"),
+			$request->get("excludeIds", [])
+		));
+		return Response::create($document, "200", [
+			"Content-Type" => "application/pdf",
+			"Content-Disposition" =>  'attachment; filename=ticket.pdf'
+		]);
+
+	}
 
 }

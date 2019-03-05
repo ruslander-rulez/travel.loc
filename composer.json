@@ -9,6 +9,7 @@
         "ext-json": "*",
         "akaunting/setting": "^1.0",
         "doctrine/dbal": "^2.8",
+        "dompdf/dompdf": "^0.8.3",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",
         "it-devgroup/laravel-command-bus": "^1.0",

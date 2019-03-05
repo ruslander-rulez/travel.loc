@@ -5,7 +5,7 @@
         </td>
         <td> {{ ship.name}}</td>
         <td>
-            <button class="bnt btn-md btn-default" v-on:click="editPopup=true"><i class="fa fa-edit"></i></button>
+            <button class="btn btn-sm btn-default" v-on:click="editPopup=true"><i class="fa fa-edit"></i></button>
 
             <ship-edit v-if="editPopup" v-on:close="editPopup=false" :inputEntity="ship" v-on:updated="updated">
             </ship-edit>

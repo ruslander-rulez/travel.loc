@@ -46,11 +46,11 @@ class UpdateBookingHandler implements Handler
 		$ship = $this->shipRepository->byId($command->ship_id());
         $booking->ship()->associate($ship);
         $booking->leader_id = $command->leader_id();
+        $booking->tourticket_settings = $command->tourticket_settings();
         $booking->group_name = $command->group_name();
         $booking->additional_info = $command->additional_info();
         $booking->arrival_date = Carbon::createFromFormat("Y-m-d", $command->arrival_date());
         $booking->departure_date = Carbon::createFromFormat("Y-m-d", $command->departure_date());
-        $booking->evening_program = $command->evening_program();
         $touristIds = collect($command->tourists())->pluck("id")->all();
 		$this->bookingRepository->store($booking);
 		$booking->tourists()->sync($touristIds);
