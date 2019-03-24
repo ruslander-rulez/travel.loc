@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth.as.admin', "prefix" => "/root", "as" => "roo
         Route::delete("/", ["uses" => "BookingController@delete", "as" => "booking.delete"]);
 
         Route::get("generate-tourtickets", ["uses" => "BookingController@GenerateTourtickets", "as" => "booking.generate-tourtickets"]);
+        Route::get("generate-border-documents", ["uses" => "BookingController@generateBorderDocuments", "as" => "booking.generate-border-documents"]);
     });
 
     Route::group(["prefix" => "/attachment"], function () {

@@ -32,7 +32,7 @@ Vue.component('color-picker', require('../ColorPicker.vue').default);
 Vue.component('booking-table', require('./Table.vue').default);
 Vue.component('new-tourist', require('./NewTourist.vue').default);
 Vue.component('ship-select', require('./ShipSelect.vue').default);
-Vue.component('download-tourtickets', require('./DownloadTourTickets.vue').default);
+Vue.component('download-center', require('./DownloadCenter.vue').default);
 
 Vue.component('booking-row', require('./Row.vue').default);
 Vue.component('booking-edit', require('./Edit.vue').default);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Application\Booking\CreateBooking;
 use App\Application\Booking\DeleteBooking;
+use App\Application\Booking\GenerateBorderDocuments;
 use App\Application\Booking\GenerateTourtickets;
 use App\Application\Booking\GetBookingList;
 use App\Application\Booking\UpdateBooking;
@@ -182,6 +183,24 @@ class BookingController extends Controller
 			"Content-Type" => "application/pdf",
 			"Content-Disposition" =>  'attachment; filename=ticket.pdf'
 		]);
+
+	}
+
+	/**
+	 * @param Request $request
+	 * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+	 * @throws \Illuminate\Validation\ValidationException
+	 */
+	public function generateBorderDocuments(Request $request)
+	{
+		$this->validate($request, [
+			"bookingId" => "required|integer|exists:" . Booking::ENTITY_TABLE . ",id",
+		]);
+
+		$document = $this->dispatch(new GenerateBorderDocuments(
+			$request->get("bookingId")
+		));
+		return \response()->download($document, "Пограничный лист.xlsx")->deleteFileAfterSend();
 
 	}
 

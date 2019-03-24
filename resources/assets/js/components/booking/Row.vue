@@ -17,7 +17,7 @@
             <button class="btn btn-sm btn-default" v-on:click="editPopup=true" title="Редактировать">
                 <i class="fa fa-edit"></i>
             </button>
-            <button class="btn btn-sm btn-warning" v-on:click="showDownloadTourTicketPopup=true" title="Скачать туртикеты">
+            <button class="btn btn-sm btn-warning" v-on:click="showDownloadCenterPopup=true" title="Центр загрузок">
                 <i class="fa fa-download"></i>
             </button>
 
@@ -28,13 +28,12 @@
 
             <booking-edit v-if="editPopup" v-on:close="editPopup=false" :inputEntity="booking" v-on:updated="updated"/>
 
-            <download-tourtickets
-                v-if="showDownloadTourTicketPopup"
-                v-on:close="showDownloadTourTicketPopup=false"
+            <download-center
+                v-if="showDownloadCenterPopup"
+                v-on:close="showDownloadCenterPopup=false"
                 :inputEntity="booking"
             >
-            </download-tourtickets>
-
+            </download-center>
         </td>
     </tr>
 </template>
@@ -49,7 +48,7 @@
         data() {
             return {
                 bufer: {},
-                showDownloadTourTicketPopup: false,
+                showDownloadCenterPopup: false,
                 booking: {
                     color: "#322332",
                     ship: {}
