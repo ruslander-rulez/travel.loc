@@ -64,7 +64,7 @@ class ClientController extends Controller
             "id" => "required|numeric|exists:" . Client::ENTITY_TABLE . ",id",
 			"name" => "required|string|max:191",
 			"email" => "nullable|string|email|max:191",
-            "phone" => "string|max:191",
+            "phone" => "nullable|string|max:191",
 			"passport" => "required|string|max:191|unique:" . Client::ENTITY_TABLE . ",passport," . $request->get("id"),
             "nationality" => "required|string|max:191",
             "birthday" => "string|date_format:Y-m-d",
@@ -91,7 +91,7 @@ class ClientController extends Controller
 		$this->validate( $request,  [
 			"name" => "required|string|max:191",
 			"email" => "nullable|string|email|max:191",
-			"phone" => "string|max:191",
+			"phone" => "nullable|string|max:191",
 			"passport" => "required|string|max:191|unique:" . Client::ENTITY_TABLE . ",passport",
 			"nationality" => "required|string|max:191",
 			"birthday" => "string|date_format:Y-m-d",
