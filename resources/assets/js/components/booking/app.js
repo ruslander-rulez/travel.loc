@@ -36,6 +36,7 @@ Vue.component('download-center', require('./DownloadCenter.vue').default);
 
 Vue.component('booking-row', require('./Row.vue').default);
 Vue.component('booking-edit', require('./Edit.vue').default);
+Vue.component('client-edit', require('../client/Edit.vue').default);
 Vue.component('color-edit', require('./EditColor.vue').default);
 
 

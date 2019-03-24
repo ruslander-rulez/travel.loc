@@ -130,6 +130,9 @@
                                                             @change="changeLeader(tourist)"
                                                         > Лидер
                                                     </label>
+                                                    <br>
+                                                    <br>
+                                                    <button v-on:click="openEditClientForm(index, tourist)" title="Редактировать Клиента" class="btn btn-sm btn-default"><i class="fa fa-edit"></i></button>
                                                 </div>
                                             </div>
 
@@ -249,6 +252,9 @@
         </div>
 
     </uiv-modal>
+
+        <client-edit v-if="editClientPopup" v-on:close="editClientPopup=false" :inputEntity="clientForUpdate.tourist" v-on:updated="clientUpdated">
+        </client-edit>
     <new-tourist v-if="showNewTouristForm" @close="showNewTouristForm=false" @newTourist="attachTourist"></new-tourist>
     </div>
 </template>
@@ -268,8 +274,13 @@
                 tab: 1,
                 booking: {},
                 errors: {},
+                clientForUpdate: {
+                    index: null,
+                    object: {}
+                },
                 tourTicketSettings: [],
                 leaderArray:[],
+                editClientPopup: false,
                 showNewTouristForm: false
             }
         },
@@ -287,6 +298,18 @@
             this.calculateTourTicketSettings()
         },
         methods: {
+            openEditClientForm: function(index, tourist) {
+                this.clientForUpdate.index = index;
+                this.clientForUpdate.tourist = tourist;
+                this.editClientPopup = true;
+            },
+            clientUpdated: function (tourist) {
+                this.booking.tourists[this.clientForUpdate.index] = tourist
+                this.clientForUpdate = {
+                    index: null,
+                    object: {}
+                }
+            },
             changeExcludes: function (setting, clientId, evening = false) {
             if (evening) {
                 let index = setting.excludeEveningIds.indexOf(clientId);

@@ -12,10 +12,10 @@
 
             <client-edit v-if="editPopup" v-on:close="editPopup=false" :inputEntity="client" v-on:updated="updated">
             </client-edit>
-
+<!--
             <delete-button
                     @deleteItem="deleteItem"
-            />
+            />-->
         </td>
     </tr>
 </template>
