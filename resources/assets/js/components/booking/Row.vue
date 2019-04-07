@@ -13,13 +13,13 @@
                 <li v-for="(item, index) in booking.tourticket_settings" style="border-bottom: 1px solid">
                     <table>
                         <tr>
-                            <td style="vertical-align: baseline">
+                            <td style="vertical-align: baseline; font-weight: bold;">
                                 {{ index }}
                             </td>
                             <td>
                                 <ul style="list-style: disc">
-                                    <li>{{ item.time.HH }}:{{ item.time.HH }} </li>
-                                    <li v-if="item.eveningProgram">{{ item.eveningTime.HH }}:{{ item.eveningTime.HH }} </li>
+                                    <li>{{ item.time.HH }}:{{ item.time.mm }} </li>
+                                    <li v-if="item.eveningProgram">{{ item.eveningTime.HH }}:{{ item.eveningTime.mm }} </li>
                                 </ul>
                             </td>
                         </tr>
