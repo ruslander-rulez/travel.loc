@@ -8,10 +8,31 @@
             <div>{{ booking.group_name }}</div>
             <div>{{ booking.additional_info }}</div>
         </td>
+        <td>
+            <ol style="padding-inline-start: 15px;">
+                <li v-for="(item, index) in booking.tourticket_settings" style="border-bottom: 1px solid">
+                    <table>
+                        <tr>
+                            <td style="vertical-align: baseline">
+                                {{ index }}
+                            </td>
+                            <td>
+                                <ul style="list-style: disc">
+                                    <li>{{ item.time.HH }}:{{ item.time.HH }} </li>
+                                    <li v-if="item.eveningProgram">{{ item.eveningTime.HH }}:{{ item.eveningTime.HH }} </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </li>
+            </ol>
+        </td>
         <td> {{ booking.arrival_date}}</td>
         <td> {{ booking.departure_date}}</td>
         <td>
-            <div v-for="tourist in booking.tourists">{{ tourist.name }}</div>
+            <ul>
+                <li v-for="tourist in booking.tourists">{{ tourist.name }}</li>
+            </ul>
         </td>
         <td class="actions">
             <button class="btn btn-sm btn-default" v-on:click="editPopup=true" title="Редактировать">

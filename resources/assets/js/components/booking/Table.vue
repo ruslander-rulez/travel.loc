@@ -111,6 +111,9 @@
                             <th class="" tabindex="0" rowspan="1" colspan="1"
                                 > Информация
                             </th>
+                            <th class="" tabindex="0" rowspan="1" colspan="1"
+                                > Выходы
+                            </th>
                             <th
                                 v-bind:class="sortingField('arrival_date')"
                                 v-on:click="changeSort('arrival_date')"
