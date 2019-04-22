@@ -56,7 +56,10 @@ Route::group(['middleware' => 'auth.as.admin', "prefix" => "/root", "as" => "roo
 
         Route::get("generate-tourtickets", ["uses" => "BookingController@GenerateTourtickets", "as" => "booking.generate-tourtickets"]);
         Route::get("generate-border-documents", ["uses" => "BookingController@generateBorderDocuments", "as" => "booking.generate-border-documents"]);
-    });
+
+		Route::post("/from-file", ["uses" => "BookingController@fromFile", "as" => "booking.create"]);
+
+	});
 
     Route::group(["prefix" => "/attachment"], function () {
     	//Route::get("/", ["uses" => "AdviceController@index", "as" => "advice.index"]);

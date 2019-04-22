@@ -37,6 +37,24 @@
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
+                        <div class="btn-group">
+                            <button id="from-file" class="btn sbold green" >
+                                Новое бронировние из файла
+                                <i class="fa fa-plus"></i>
+                            </button>
+                            <uiv-popover
+                                title="Прикреите файл"
+                                target="#from-file"
+                                v-model="showNewFormFromFile"
+                            >
+                                <template slot="popover">
+                                    <label>Файл
+                                        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                                    </label>
+                                    <button v-on:click="submitFile()">Отправить</button>
+                                </template>
+                            </uiv-popover>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="col-md-5 button-type-line">
@@ -175,7 +193,9 @@
     export default {
         data() {
             return {
+                file: '',
                 showNewForm : false,
+                showNewFormFromFile : false,
                 filter: {
                     dateFrom: null,
                     dateTo: null,
@@ -215,6 +235,54 @@
             }
         },
         methods: {
+
+            /*
+              Handles a change on the file upload
+            */
+            handleFileUpload(){
+                this.file = this.$refs.file.files[0];
+            },
+
+            submitFile(){
+                /*
+                        Initialize the form data
+                    */
+                let formData = new FormData();
+
+                /*
+                    Add the form data we need to submit
+                */
+                formData.append('file', this.file);
+
+                /*
+                  Make the request to the POST /single-file URL
+                */
+                axios.post( 'booking/from-file',
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                ).then((response) => {
+                    this.defaultBooking = response.data;
+                    this.showNewForm = true;
+                    this.showNewFormFromFile = false;
+
+                    setTimeout(() => {
+                        this.defaultBooking = {
+                            id: null,
+                            arrival_date: "",
+                            departure_date: "",
+                            evening_program: false,
+                            tourists: []
+                        }
+                    })
+                })
+                .catch(function(){
+                    console.log('FAILURE!!');
+                });
+            },
 
             applyDateFilter: function (params) {
                 this.filter.dateFrom = params[0]

@@ -204,4 +204,51 @@ class BookingController extends Controller
 
 	}
 
+	public function fromFile(Request $request)
+	{
+		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($request->file()["file"]->getFileInfo()->getRealPath());
+
+		$data = $spreadsheet->getActiveSheet()->toArray();
+		$tourists = collect([]);
+		$arrivalDate = "";
+		$departureDate = "";
+		for ($i=2; $i<count($data); $i++) {
+			try {
+				$arrivalDate = Carbon::createFromFormat("d.m.Y", array_get($data, "{$i}.2"));
+			} catch (\Exception $exception) {
+			}
+			try {
+				$departureDate = Carbon::createFromFormat("d.m.Y", array_get($data, "{$i}.3"));
+			} catch (\Exception $exception) {
+			}
+			$lainerName = array_get($data, "{$i}.4");
+
+			$clientPassport = (string) array_get($data, "{$i}.9");
+			$client = Client::where("passport", "=", $clientPassport)->first();
+			if (!$client) {
+				$client = new Client();
+				$client->passport = $clientPassport;
+				try {
+					$client->birthday = Carbon::createFromFormat("d.m.Y", array_get($data, "{$i}.7"));
+				} catch (\Exception $exception) {
+					$client->birthday = null;
+				}
+				$client->nationality = array_get($data, "{$i}.8");
+				$client->name = array_get($data, "{$i}.5") . " " . array_get($data, "{$i}.6");
+				$client->save();
+			}
+			$tourists->push($client);
+		}
+
+		$ship = Ship::where("name", "=", $lainerName)->first();
+		$booking = new Booking();
+		$booking->id = null;
+		$booking->arrival_date = $arrivalDate->format("Y-m-d");
+		$booking->departure_date = $departureDate->format("Y-m-d");
+		$booking->ship_id = $ship ? $ship->id : null;
+		$booking->ship = $ship ?? null;
+		$booking->tourists = $tourists;
+		return $booking;
+	}
+
 }
