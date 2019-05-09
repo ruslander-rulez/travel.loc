@@ -107,6 +107,24 @@
                                             <i class="fa fa-plus"></i>
                                         </button>
                                     </div>
+                                    <div class="btn-group">
+                                        <button id="user-from-file" class="btn sbold green" v-on:click="">
+                                            Добавить участникков из файла
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                        <uiv-popover
+                                                title="Прикреите файл"
+                                                target="#user-from-file"
+                                                v-model="showNewUsersFormFromFile"
+                                        >
+                                            <template slot="popover">
+                                                <label>Файл
+                                                    <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                                                </label>
+                                                <button v-on:click="submitFile()">Отправить</button>
+                                            </template>
+                                        </uiv-popover>
+                                    </div>
                                 </div>
 
                                 <label class="col-md-2 control-label">Состав группы</label>
@@ -272,6 +290,8 @@
             return {
                 showPopup: true,
                 tab: 1,
+                file: null,
+                showNewUsersFormFromFile : false,
                 booking: {},
                 errors: {},
                 clientForUpdate: {
@@ -417,6 +437,45 @@
                     this.booking.ship = null
                     this.booking.ship_id = null
                 }
+            },
+            /*
+              Handles a change on the file upload
+            */
+            handleFileUpload(){
+                this.file = this.$refs.file.files[0];
+            },
+
+            submitFile(){
+                /*
+                        Initialize the form data
+                    */
+                let formData = new FormData();
+
+                /*
+                    Add the form data we need to submit
+                */
+                formData.append('file', this.file);
+
+                /*
+                  Make the request to the POST /single-file URL
+                */
+                axios.post( 'client/from-file',
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                ).then((response) => {
+                    response.data.forEach((client) => {
+                        this.attachTourist(client)
+                    });
+                    this.showNewUsersFormFromFile = false;
+                    this.file = null;
+                })
+                    .catch(function(){
+                        console.log('FAILURE!!');
+                    });
             },
             prepareBookingForSave: function() {
                 let settings = {};

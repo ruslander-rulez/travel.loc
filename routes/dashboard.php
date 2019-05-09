@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth.as.admin', "prefix" => "/root", "as" => "roo
         Route::get("/search", ["uses" => "ClientController@search", "as" => "client.search"]);
         Route::put("/", ["uses" => "ClientController@save", "as" => "client.save"]);
         Route::post("/", ["uses" => "ClientController@create", "as" => "client.create"]);
+        Route::post("/from-file", ["uses" => "ClientController@fromFile", "as" => "client.from-file"]);
         Route::delete("/", ["uses" => "ClientController@delete", "as" => "client.delete"]);
     });
 

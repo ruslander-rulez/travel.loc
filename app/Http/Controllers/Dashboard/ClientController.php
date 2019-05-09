@@ -7,12 +7,15 @@ use App\Application\Client\CreateClient;
 use App\Application\Client\DeleteClient;
 use App\Application\Client\GetClientList;
 use App\Application\Client\UpdateClient;
+use App\Domain\Booking\Booking;
 use App\Domain\Client\Client;
 use App\Domain\Client\ClientFilter;
 use App\Domain\Core\Sort;
 use App\Domain\Core\Pagination;
+use App\Domain\Ship\Ship;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 
 class ClientController extends Controller
 {
@@ -122,5 +125,35 @@ class ClientController extends Controller
         $this->dispatch(new DeleteClient($request->get("id")));
         return new Response([], Response::HTTP_ACCEPTED);
     }
+
+	public function fromFile(Request $request)
+	{
+		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($request->file()["file"]->getFileInfo()->getRealPath());
+
+		$data = $spreadsheet->getActiveSheet()->toArray();
+		$tourists = collect([]);
+		for ($i=2; $i<count($data); $i++) {
+
+			$clientPassport = (string) array_get($data, "{$i}.9");
+			if (!$clientPassport) {
+				continue;
+			}
+			$client = Client::where("passport", "=", $clientPassport)->first();
+			if (!$client) {
+				$client = new Client();
+				$client->passport = $clientPassport;
+				try {
+					$client->birthday = Carbon::createFromFormat("d.m.Y", array_get($data, "{$i}.7"));
+				} catch (\Exception $exception) {
+					$client->birthday = null;
+				}
+				$client->nationality = array_get($data, "{$i}.8");
+				$client->name = array_get($data, "{$i}.5") . " " . array_get($data, "{$i}.6");
+				$client->save();
+			}
+			$tourists->push($client);
+		}
+		return $tourists->all();
+	}
 
 }

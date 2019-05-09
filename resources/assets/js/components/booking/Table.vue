@@ -229,7 +229,7 @@
                 ],
                 sort: {
                     field: "arrival_date",
-                    direction: "DESC"
+                    direction: "ASC"
                 },
                 alertMessage: []
             }
@@ -356,7 +356,6 @@
 
             this.filter.dateTo.setHours(23,59,59);
             this.filter.dateFrom = new Date();
-            this.filter.dateFrom.setDate(new Date().getDate() - 200);
             this.filter.dateFrom.setHours(0, 0, 0, 0);
             this.getData();
         },
