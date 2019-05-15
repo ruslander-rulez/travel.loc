@@ -3,7 +3,7 @@
     <div class="page-header-inner ">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-            <a href="#">
+            <a href="/root">
                 <img
                     src="{{ asset("dashboard/layouts/layout/img/logo.png") }}"
                     alt="logo"

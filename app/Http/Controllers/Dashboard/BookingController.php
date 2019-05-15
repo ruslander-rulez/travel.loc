@@ -84,7 +84,7 @@ class BookingController extends Controller
 
 		$sort = new Sort();
         $sort->setField("arrival_date");
-        $sort->setDirection($request->get("sortDirection", "DESC"));
+        $sort->setDirection($request->get("arrival_date", "ASC"));
 
         $items = $this->dispatch(new GetBookingList($filter, null, $sort));
 
