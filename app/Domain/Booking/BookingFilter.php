@@ -57,7 +57,7 @@ class BookingFilter
 	/**
 	 * @return Carbon
 	 */
-	public function departureDateFrom(): Carbon
+	public function departureDateFrom(): ?Carbon
 	{
 		return $this->departureDateFrom;
 	}
@@ -65,7 +65,7 @@ class BookingFilter
 	/**
 	 * @param Carbon $departureDateFrom
 	 */
-	public function setDepartureDateFrom(Carbon $departureDateFrom): void
+	public function setDepartureDateFrom(?Carbon $departureDateFrom): void
 	{
 		$this->departureDateFrom = $departureDateFrom;
 	}
@@ -73,7 +73,7 @@ class BookingFilter
 	/**
 	 * @return Carbon
 	 */
-	public function departureDateTo(): Carbon
+	public function departureDateTo(): ?Carbon
 	{
 		return $this->departureDateTo;
 	}
@@ -81,7 +81,7 @@ class BookingFilter
 	/**
 	 * @param Carbon $departureDateTo
 	 */
-	public function setDepartureDateTo(Carbon $departureDateTo): void
+	public function setDepartureDateTo(?Carbon $departureDateTo): void
 	{
 		$this->departureDateTo = $departureDateTo;
 	}
