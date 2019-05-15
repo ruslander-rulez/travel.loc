@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth.as.admin', "prefix" => "/root", "as" => "roo
         Route::get("/", ["uses" => "BookingController@index", "as" => "booking.index"]);
 
         Route::get("/list", ["uses" => "BookingController@list", "as" => "booking.list"]);
+        Route::get("/nearest-booking-list", ["uses" => "BookingController@nearestBookingList", "as" => "booking.nearestBookingList"]);
         Route::put("/", ["uses" => "BookingController@save", "as" => "booking.save"]);
         Route::put("/set-color", ["uses" => "BookingController@setColor", "as" => "booking.set-color"]);
         Route::post("/", ["uses" => "BookingController@create", "as" => "booking.create"]);

@@ -40,6 +40,14 @@ class BookingRepositoryEloquent implements BookingRepository
 			if ($bookingFilter->arrivalDateTo()) {
 				$query->where("arrival_date", "<=", $bookingFilter->arrivalDateTo());
 			}
+
+			if ($bookingFilter->departureDateFrom()) {
+				$query->where("departure_date", ">=", $bookingFilter->departureDateFrom());
+			}
+
+			if ($bookingFilter->departureDateTo()) {
+				$query->where("departure_date", "<=", $bookingFilter->departureDateTo());
+			}
         });
 		if ($sort) {
 			$qb->orderBy($sort->field(), $sort->direction());

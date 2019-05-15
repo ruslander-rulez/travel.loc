@@ -48,10 +48,10 @@ class BookingController extends Controller
 
 
 		if ($request->get("dateFrom")) {
-			$filter->setArrivalDateFrom(Carbon::parse($request->get("dateFrom")));
+			$filter->setDepartureDateFrom(Carbon::parse($request->get("dateFrom")));
 		}
 		if ($request->get("dateTo")) {
-			$filter->setArrivalDateTo(Carbon::parse($request->get("dateTo")));
+			$filter->setDepartureDateTo(Carbon::parse($request->get("dateTo")));
 		}
 
 
@@ -71,6 +71,31 @@ class BookingController extends Controller
 	 * @return Response
 	 * @throws \Illuminate\Validation\ValidationException
 	 */
+	public function nearestBookingList(Request $request)
+    {
+        $this->validate($request, [
+
+        ]);
+        $filter = new BookingFilter();
+
+
+		$filter->setArrivalDateFrom(Carbon::now());
+		$filter->setArrivalDateTo(Carbon::now()->addDays(4));
+
+		$sort = new Sort();
+        $sort->setField("arrival_date");
+        $sort->setDirection($request->get("sortDirection", "DESC"));
+
+        $items = $this->dispatch(new GetBookingList($filter, null, $sort));
+
+        return new Response($items, Response::HTTP_OK);
+    }
+
+	/**
+	 * @param Request $request
+	 * @return Response
+	 * @throws \Illuminate\Validation\ValidationException
+	 */
     public function save(Request $request)
     {
         $this->validate( $request,  [
@@ -78,6 +103,7 @@ class BookingController extends Controller
             "ship_id" => "required|integer|exists:" . Ship::ENTITY_TABLE . ",id",
             "group_name" => "required|string|max:191",
             "tourticket_settings" => "nullable|array",
+            "checklist" => "nullable|array",
             "additional_info" => "nullable|string|max:191",
             "arrival_date" => "required|string|date_format:\"Y-m-d\"",
             "departure_date" => "required|string|date_format:\"Y-m-d\"",
@@ -94,7 +120,8 @@ class BookingController extends Controller
             $request->get("departure_date"),
 			$request->get("tourists", []),
 			$request->get("leader_id"),
-			$request->get("tourticket_settings")
+			$request->get("tourticket_settings"),
+			$request->get("checklist")
         ));
         return new Response([], Response::HTTP_ACCEPTED);
     }
@@ -224,6 +251,9 @@ class BookingController extends Controller
 			$lainerName = array_get($data, "{$i}.4");
 
 			$clientPassport = (string) array_get($data, "{$i}.9");
+			if (!$clientPassport) {
+				continue;
+			}
 			$client = Client::where("passport", "=", $clientPassport)->first();
 			if (!$client) {
 				$client = new Client();

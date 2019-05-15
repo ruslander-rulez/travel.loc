@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  * @property array $tourticket_settings
+ * @property array $checklist
  * @property integer $id
  * @property string $color
  */
@@ -26,7 +27,8 @@ class Booking extends Model
 	protected $dates = ['deleted_at'];
 
 	protected $casts = [
-		'tourticket_settings' => 'array'
+		'tourticket_settings' => 'array',
+		'checklist' => 'array'
 	];
 
 	public function ship()

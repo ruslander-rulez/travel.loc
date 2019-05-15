@@ -18,5 +18,6 @@ mix
     .js('resources/assets/js/components/ship/app.js', 'public/js/ship.js')
     .js('resources/assets/js/components/client/app.js', 'public/js/client.js')
     .js('resources/assets/js/components/booking/app.js', 'public/js/booking.js')
+    .js('resources/assets/js/components/index/app.js', 'public/js/index.js')
     .js('resources/assets/js/components/settings/app.js', 'public/js/settings.js')
     .sass('resources/assets/sass/app.scss', 'public/css');
