@@ -14,7 +14,7 @@ class AtlerBookingAddChecklistField extends Migration
     public function up()
     {
         Schema::table('booking', function (Blueprint $table) {
-            $table->json("checklist");
+            $table->json("checklist")->nullable();
         });
     }
 

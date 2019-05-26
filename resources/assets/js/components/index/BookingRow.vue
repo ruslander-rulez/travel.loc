@@ -8,53 +8,8 @@
             <div>{{ booking.group_name }}</div>
             <div>{{ booking.additional_info }}</div>
         </td>
-        <td>
-            <div class="form-group">
-
-                <toggle-button
-                        v-model="booking.checklist.border_documents"
-                        :height="30"
-                        :width="65"
-                        :labels="{checked: 'ДА', unchecked: 'НЕТ'}"
-                        @change="changeChecklist"
-                />
-                <label class="control-label">
-                    Документы пограничникам
-                </label>
-                </div>
-            <div class="form-group">
-                <toggle-button
-                        v-model="booking.checklist.bus"
-                        :height="30"
-                        :width="65"
-                        :labels="{checked: 'ДА', unchecked: 'НЕТ'}"
-                        @change="changeChecklist"
-
-                />
-                <label class="control-label">
-                    Транспорт
-                </label>
-                </div>
-            <div class="form-group">
-                <toggle-button
-                        v-model="booking.checklist.guide"
-                        :height="30"
-                        :width="65"
-                        :labels="{checked: 'ДА', unchecked: 'НЕТ'}"
-                        @change="changeChecklist"
-                />
-                <label class="control-label">
-                    Гид
-                </label>
-                </div>
-        </td>
         <td> {{ booking.arrival_date}}</td>
         <td> {{ booking.departure_date}}</td>
-        <td>
-            <ul>
-                <li v-for="tourist in booking.tourists">{{ tourist.name }}</li>
-            </ul>
-        </td>
         <td class="actions">
             <button class="btn btn-sm btn-default" v-on:click="editPopup=true" title="Редактировать">
                 <i class="fa fa-edit"></i>
@@ -108,13 +63,8 @@
                         "background-color": "red !important"
                     }
                 }
-                if (!this.booking.checklist.bus || !this.booking.checklist.guide) {
-                    return {
-                        "background-color": "yellow !important"
-                    }
-                }
-                return {
-                    "background-color": "green !important"
+                 return {
+                    "background-color": "#75c791 !important"
                 }
             }
         },
@@ -123,15 +73,8 @@
         methods: {
             updated: function (booking) {
                 this.booking = booking;
-                this.$emit("message", "Бронирование было обновлено")
+                // this.booking = JSON.parse(JSON.stringify(booking));
             },
-            changeChecklist: function (val) {
-                window.HTTP.put(laroute.route('root.booking.save', {}), this.booking).then(response => {
-
-                }).catch(e => {
-                    alert("Ошибка обновления")
-                });
-            }
         }
     }
 </script>

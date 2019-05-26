@@ -3,7 +3,7 @@
         <div class="portlet box red-sunglo">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-ship"></i>Ближайшие отправки</div>
+                    <i class="fa fa-ship"></i>Ближайшие корабли</div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
                     <a href="javascript:;" class="reload" data-original-title="" title=""> </a>
@@ -27,9 +27,6 @@
                             <th class="" tabindex="0" rowspan="1" colspan="1"
                             > Информация
                             </th>
-                            <th class="" tabindex="0" rowspan="1" colspan="1"
-                            >
-                            </th>
                             <th
                                     tabindex="0"
                                     rowspan="1"
@@ -39,9 +36,6 @@
                             <th
                                     class="" tabindex="0" rowspan="1" colspan="1"
                             > Дата отправки
-                            </th>
-                            <th class="" tabindex="0" rowspan="1" colspan="1"
-                            > Список группы
                             </th>
                             <th tabindex="0" rowspan="1" colspan="1" width="46"
                             >

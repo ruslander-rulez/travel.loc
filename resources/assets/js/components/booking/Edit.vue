@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="ready">
 
     <uiv-modal v-model="showPopup" title="Редактирование Бронирования" size="lg" v-on:hide="close">
         <div class="row">
@@ -96,6 +96,20 @@
                                     ></date-picker>
                                     <error-block :errors="errors['departure_date']" />
                                 </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <toggle-button
+                                            v-model="booking.checklist.border_documents"
+                                            :height="30"
+                                            :width="65"
+                                            :labels="{checked: 'ДА', unchecked: 'НЕТ'}"
+                                    />
+                                    <label class="control-label">
+                                        Документы пограничникам
+                                    </label>
+                                </div>
+
                             </div>
                         </div>
                         <div class="div" v-if="tab===2">
@@ -290,9 +304,12 @@
             return {
                 showPopup: true,
                 tab: 1,
+                ready: false,
                 file: null,
                 showNewUsersFormFromFile : false,
-                booking: {},
+                booking: {
+                    checklist: {}
+                },
                 errors: {},
                 clientForUpdate: {
                     index: null,
@@ -310,12 +327,16 @@
         props: ["inputEntity"],
         mounted() {
             this.booking = Object.assign({}, this.inputEntity);
+            if (typeof this.booking.checklist === "undefined" || !this.booking.checklist) {
+                this.booking.checklist = {}
+            }
             this.booking.tourists = this.inputEntity.tourists.slice();
             this.booking.departure_date = (this.booking.departure_date.split(" "))[0]
             this.booking.arrival_date = (this.booking.arrival_date.split(" "))[0]
             this.leaderArray.push(this.booking.leader_id)
 
             this.calculateTourTicketSettings()
+            this.ready = true
         },
         methods: {
             openEditClientForm: function(index, tourist) {
