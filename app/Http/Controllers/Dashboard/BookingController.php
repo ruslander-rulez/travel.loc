@@ -80,7 +80,7 @@ class BookingController extends Controller
 
 
 		$filter->setArrivalDateFrom(Carbon::now());
-		$filter->setArrivalDateTo(Carbon::now()->addDays(4));
+		$filter->setArrivalDateTo(Carbon::now()->addDays(4)->endOfDay());
 
 		$sort = new Sort();
         $sort->setField("arrival_date");

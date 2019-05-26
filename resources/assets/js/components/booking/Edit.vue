@@ -337,6 +337,14 @@
 
             this.calculateTourTicketSettings()
             this.ready = true
+
+            this.$watch('booking.checklist', (newVal, oldVal) => {
+                if (newVal.border_documents === true) {
+                    this.booking.color = "#75c791"
+                }
+            }, {
+                deep: true
+            })
         },
         methods: {
             openEditClientForm: function(index, tourist) {
