@@ -326,7 +326,7 @@
         name: "editBooking",
         props: ["inputEntity"],
         mounted() {
-            this.booking = Object.assign({}, this.inputEntity);
+            this.booking = JSON.parse(JSON.stringify(this.inputEntity));
             if (typeof this.booking.checklist === "undefined" || !this.booking.checklist) {
                 this.booking.checklist = {}
             }

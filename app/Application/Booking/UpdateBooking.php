@@ -19,6 +19,7 @@ class UpdateBooking implements Command
 	private $leader_id;
 	private $tourticket_settings;
 	private $checklist;
+	private $color;
 
 	/**
 	 * UpdateAdvice constructor.
@@ -32,6 +33,7 @@ class UpdateBooking implements Command
 	 * @param $leader_id
 	 * @param $tourticket_settings
 	 * @param $checklist
+	 * @param $color
 	 */
     public function __construct(
         $id,
@@ -43,7 +45,8 @@ class UpdateBooking implements Command
 		$tourists,
 		$leader_id,
 		$tourticket_settings,
-		$checklist
+		$checklist,
+		$color
     ) {
         $this->id = $id;
 		$this->ship_id = $ship_id;
@@ -55,6 +58,7 @@ class UpdateBooking implements Command
 		$this->leader_id = $leader_id;
 		$this->tourticket_settings = $tourticket_settings;
 		$this->checklist = $checklist;
+		$this->color = $color;
 	}
 
 	/**
@@ -135,5 +139,13 @@ class UpdateBooking implements Command
 	public function checklist()
 	{
 		return $this->checklist;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function color()
+	{
+		return $this->color;
 	}
 }

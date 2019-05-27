@@ -7,6 +7,7 @@
             <div>{{ booking.ship.name }}</div>
             <div>{{ booking.group_name }}</div>
             <div>{{ booking.additional_info }}</div>
+            <div v-if="booking.checklist && typeof booking.checklist.border_documents !== 'undefined' && booking.checklist.border_documents">Отправлено пограничникам</div>
         </td>
         <td> {{ booking.arrival_date}}</td>
         <td> {{ booking.departure_date}}</td>

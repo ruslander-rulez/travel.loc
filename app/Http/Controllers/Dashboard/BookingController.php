@@ -80,7 +80,7 @@ class BookingController extends Controller
 
 
 		$filter->setArrivalDateFrom(Carbon::now());
-		$filter->setArrivalDateTo(Carbon::now()->addDays(4)->endOfDay());
+		$filter->setArrivalDateTo(Carbon::now()->setTimezone(new \DateTimeZone("+3"))->addDays(4)->endOfDay());
 
 		$sort = new Sort();
         $sort->setField("arrival_date");
@@ -121,7 +121,8 @@ class BookingController extends Controller
 			$request->get("tourists", []),
 			$request->get("leader_id"),
 			$request->get("tourticket_settings"),
-			$request->get("checklist")
+			$request->get("checklist"),
+			$request->get("color")
         ));
         return new Response([], Response::HTTP_ACCEPTED);
     }

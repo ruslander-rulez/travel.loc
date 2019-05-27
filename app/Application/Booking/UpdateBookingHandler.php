@@ -50,6 +50,7 @@ class UpdateBookingHandler implements Handler
         $booking->group_name = $command->group_name();
         $booking->additional_info = $command->additional_info();
         $booking->checklist = $command->checklist();
+        $booking->color = $command->color();
         $booking->arrival_date = Carbon::createFromFormat("Y-m-d", $command->arrival_date());
         $booking->departure_date = Carbon::createFromFormat("Y-m-d", $command->departure_date());
         $touristIds = collect($command->tourists())->pluck("id")->all();

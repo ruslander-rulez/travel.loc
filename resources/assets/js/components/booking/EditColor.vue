@@ -4,7 +4,7 @@
 
     </div>
         <uiv-popover title="Изменить цвет" trigger="manual" v-model="showColorEditor" >
-            <div style="text-shadow: -1px 0 white, 0 1px white, 2px 0 white, 0 -1px white;">
+            <div>
                 {{ id }}
             </div>
 
