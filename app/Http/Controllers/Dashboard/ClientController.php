@@ -27,10 +27,12 @@ class ClientController extends Controller
     {
         $this->validate($request, [
             "perPage" => "numeric|min:1",
-            "page" => "numeric|min:1"
+            "page" => "numeric|min:1",
+			"search" => "nullable|string"
         ]);
 
         $filter = new ClientFilter();
+        $filter->setSearch($request->get("search"));
 
         $sort = new Sort();
         $sort->setField("name");

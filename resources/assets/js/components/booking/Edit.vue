@@ -330,6 +330,8 @@
             if (typeof this.booking.checklist === "undefined" || !this.booking.checklist) {
                 this.booking.checklist = {}
             }
+            this.booking.checklist = Object.assign({}, this.booking.checklist);
+
             this.booking.tourists = this.inputEntity.tourists.slice();
             this.booking.departure_date = (this.booking.departure_date.split(" "))[0]
             this.booking.arrival_date = (this.booking.arrival_date.split(" "))[0]

@@ -38,6 +38,7 @@ class ClientRepositoryEloquent implements ClientRepository
 					/** @var Builder $query */
 					$query->where("passport", "like", "%{$clientFilter->search()}%");
 					$query->orWhere("email", "like", "%{$clientFilter->search()}%");
+					$query->orWhere("name", "like", "%{$clientFilter->search()}%");
 				});
 			}
         });

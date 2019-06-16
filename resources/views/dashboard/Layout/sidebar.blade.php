@@ -51,7 +51,7 @@
             <li class="nav-item  @if (Route::currentRouteName() ==  'root.client.index') active @endif">
                 <a href="{{ route("root.client.index") }}" class="nav-link ">
                     <i class="fa fa-users" aria-hidden="true"></i>
-                    <span class="title">Клиенты</span>
+                    <span class="title">Круизные Клиенты</span>
                 </a>
             </li>
 

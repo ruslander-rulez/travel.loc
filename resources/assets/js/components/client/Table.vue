@@ -59,6 +59,17 @@
                         </div>-->
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12" style="margin-top: 10px;">
+                        <input
+                            type="text"
+                            @change="filterApply"
+                            class="form-control"
+                            v-model="search"
+                            placeholder="Поиск"
+                        >
+                    </div>
+                </div>
             </div>
             <div id="sample_1_wrapper" class="dataTables_wrapper no-footer">
                 <div class="row">
@@ -156,6 +167,7 @@
                 clients: [],
                 perPage: null,
                 page: 1,
+                search: "",
                 maxCountItems: 0,
                 countEntries: {
                     to: 0,
@@ -183,9 +195,22 @@
                 this.showAlert("Клиент был создан")
                 this.getData()
             },
+            filterApply: function () {
+                this.page = 1;
+                this.getData();
+            },
             getData: function () {
                 axios
-                    .get(laroute.route('root.client.list', {}), {params: {page: this.page, perPage: this.perPage}})
+                    .get(
+                        laroute.route('root.client.list', {}),
+                        {
+                            params: {
+                                page: this.page,
+                                perPage: this.perPage,
+                                search: this.search
+                            }
+                        }
+                    )
                     .then((response) => {
 
                         this.clients = response.data;
