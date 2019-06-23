@@ -1,7 +1,9 @@
 {
     "/js/booking.js": "/js/booking.js",
     "/js/client.js": "/js/client.js",
+    "/js/hotel.js": "/js/hotel.js",
     "/js/index.js": "/js/index.js",
+    "/js/restaurant.js": "/js/restaurant.js",
     "/js/settings.js": "/js/settings.js",
     "/js/ship.js": "/js/ship.js",
     "/css/app.css": "/css/app.css"

@@ -24,12 +24,13 @@ window.Vue.use(ToggleButton);
 
 
 Vue.component('pagination', require('../Pagination.vue').default);
-Vue.component('error-block', require('../ErrorFormGroupBlock.vue').default);
 Vue.component('delete-button', require('../DeleteButton.vue').default);
+Vue.component('error-block', require('../ErrorFormGroupBlock.vue').default);
 
-Vue.component('ship-table', require('./Table.vue').default);
+Vue.component('restaurant-table', require('./Table.vue').default);
+Vue.component('menu-table', require('./MenuTable.vue').default);
+Vue.component('menu-edit', require('./MenuEdit.vue').default);
+Vue.component('menu-row', require('./MenuRow.vue').default);
 
-Vue.component('ship-row', require('./Row.vue').default);
-Vue.component('ship-edit', require('./Edit.vue').default);
-
-
+Vue.component('restaurant-row', require('./Row.vue').default);
+Vue.component('restaurant-edit', require('./Edit.vue').default);

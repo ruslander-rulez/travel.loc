@@ -34,6 +34,22 @@ Route::group(['middleware' => 'auth.as.admin', "prefix" => "/root", "as" => "roo
         Route::post("/", ["uses" => "ShipController@create", "as" => "ship.create"]);
         Route::delete("/", ["uses" => "ShipController@delete", "as" => "ship.delete"]);
     });
+    Route::group(["prefix" => "/hotel"], function () {
+        Route::get("/", ["uses" => "HotelController@index", "as" => "hotel.index"]);
+
+        Route::get("/list", ["uses" => "HotelController@list", "as" => "hotel.list"]);
+        Route::put("/", ["uses" => "HotelController@save", "as" => "hotel.save"]);
+        Route::post("/", ["uses" => "HotelController@create", "as" => "hotel.create"]);
+        Route::delete("/", ["uses" => "HotelController@delete", "as" => "hotel.delete"]);
+    });
+    Route::group(["prefix" => "/restaurant"], function () {
+        Route::get("/", ["uses" => "RestaurantController@index", "as" => "restaurant.index"]);
+
+        Route::get("/list", ["uses" => "RestaurantController@list", "as" => "restaurant.list"]);
+        Route::put("/", ["uses" => "RestaurantController@save", "as" => "restaurant.save"]);
+        Route::post("/", ["uses" => "RestaurantController@create", "as" => "restaurant.create"]);
+        Route::delete("/", ["uses" => "RestaurantController@delete", "as" => "restaurant.delete"]);
+    });
 
     Route::group(["prefix" => "/client"], function () {
         Route::get("/", ["uses" => "ClientController@index", "as" => "client.index"]);

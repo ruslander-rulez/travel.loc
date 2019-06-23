@@ -61,6 +61,24 @@
                     <span class="title">Корабли</span>
                 </a>
             </li>
+            <li class="heading">
+                <h3 class="uppercase"></h3>
+            </li>
+            <li class="heading">
+                <h3 class="">Книга</h3>
+            </li>
+            <li class="nav-item  @if (Route::currentRouteName() ==  'root.hotel.index') active @endif">
+                <a href="{{ route("root.hotel.index") }}" class="nav-link ">
+                    <i class="fa fa-hotel" aria-hidden="true"></i>
+                    <span class="title">Отели</span>
+                </a>
+            </li>
+            <li class="nav-item  @if (Route::currentRouteName() ==  'root.restaurant.index') active @endif">
+                <a href="{{ route("root.restaurant.index") }}" class="nav-link ">
+                    <i class="fa fa-cutlery" aria-hidden="true"></i>
+                    <span class="title">Рестораны</span>
+                </a>
+            </li>
 {{--            <li class="nav-item  @if (Route::currentRouteName() ==  'root.setting.index') active @endif">
                 <a href="{{ route("root.setting.index") }}" class="nav-link ">
                     <i class="fa fa-cog" aria-hidden="true"></i>
