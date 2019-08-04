@@ -4,6 +4,7 @@
               {{ booking.id}}
         </td>
         <td>
+            <div v-if="booking.checklist && typeof booking.checklist.seafront"> <b>Набережная</b></div>
             <div>{{ booking.ship.name }}</div>
             <div>{{ booking.group_name }}</div>
             <div>{{ booking.additional_info }}</div>

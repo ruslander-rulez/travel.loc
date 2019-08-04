@@ -4,6 +4,7 @@
               <color-edit :id="booking.id" :colorInput="booking.color" @changeColor="changeColor"></color-edit>
         </td>
         <td>
+            <div v-if="booking.checklist && typeof booking.checklist.seafront"> <b>Набережная</b></div>
             <div>{{ booking.ship.name }}</div>
             <div>{{ booking.group_name }}</div>
             <div>{{ booking.additional_info }}</div>

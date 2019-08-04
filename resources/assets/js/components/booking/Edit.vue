@@ -109,6 +109,17 @@
                                         Документы пограничникам
                                     </label>
                                 </div>
+                                <div class="col-md-4">
+                                    <toggle-button
+                                            v-model="booking.checklist.seafront"
+                                            :height="30"
+                                            :width="65"
+                                            :labels="{checked: 'ДА', unchecked: 'НЕТ'}"
+                                    />
+                                    <label class="control-label">
+                                        Набережная
+                                    </label>
+                                </div>
 
                             </div>
                         </div>
