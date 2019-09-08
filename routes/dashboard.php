@@ -34,6 +34,14 @@ Route::group(['middleware' => 'auth.as.admin', "prefix" => "/root", "as" => "roo
         Route::post("/", ["uses" => "ShipController@create", "as" => "ship.create"]);
         Route::delete("/", ["uses" => "ShipController@delete", "as" => "ship.delete"]);
     });
+    Route::group(["prefix" => "/place"], function () {
+        Route::get("/", ["uses" => "PlaceController@index", "as" => "place.index"]);
+
+        Route::get("/list", ["uses" => "PlaceController@list", "as" => "place.list"]);
+        Route::put("/", ["uses" => "PlaceController@save", "as" => "place.save"]);
+        Route::post("/", ["uses" => "PlaceController@create", "as" => "place.create"]);
+        Route::delete("/", ["uses" => "PlaceController@delete", "as" => "place.delete"]);
+    });
     Route::group(["prefix" => "/hotel"], function () {
         Route::get("/", ["uses" => "HotelController@index", "as" => "hotel.index"]);
 
@@ -77,6 +85,15 @@ Route::group(['middleware' => 'auth.as.admin', "prefix" => "/root", "as" => "roo
 
 		Route::post("/from-file", ["uses" => "BookingController@fromFile", "as" => "booking.create"]);
 
+	});
+
+    Route::group(["prefix" => "/book"], function () {
+        Route::get("/", ["uses" => "BookController@index", "as" => "book.index"]);
+
+        Route::get("/list", ["uses" => "BookController@list", "as" => "book.list"]);
+        Route::put("/", ["uses" => "BookController@save", "as" => "book.save"]);
+        Route::post("/", ["uses" => "BookController@create", "as" => "book.create"]);
+        Route::delete("/", ["uses" => "BookController@delete", "as" => "book.delete"]);
 	});
 
     Route::group(["prefix" => "/attachment"], function () {

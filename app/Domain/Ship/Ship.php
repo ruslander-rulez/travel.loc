@@ -1,6 +1,7 @@
 <?php
 namespace App\Domain\Ship;
 
+use App\Domain\Book\Book;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -21,4 +22,9 @@ class Ship extends Model
    	protected $table = self::ENTITY_TABLE;
 
 	protected $dates = ['deleted_at'];
+
+	public function books()
+	{
+		return $this->morphMany(Book::class, 'type');
+	}
 }

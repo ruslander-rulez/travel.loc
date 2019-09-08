@@ -67,6 +67,13 @@
             <li class="heading">
                 <h3 class="">Книга</h3>
             </li>
+
+            <li class="nav-item  @if (Route::currentRouteName() ==  'root.book.index') active @endif">
+                <a href="{{ route("root.book.index") }}" class="nav-link ">
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                    <span class="title">Книга</span>
+                </a>
+            </li>
             <li class="nav-item  @if (Route::currentRouteName() ==  'root.hotel.index') active @endif">
                 <a href="{{ route("root.hotel.index") }}" class="nav-link ">
                     <i class="fa fa-hotel" aria-hidden="true"></i>
@@ -77,6 +84,12 @@
                 <a href="{{ route("root.restaurant.index") }}" class="nav-link ">
                     <i class="fa fa-cutlery" aria-hidden="true"></i>
                     <span class="title">Рестораны</span>
+                </a>
+            </li>
+            <li class="nav-item  @if (Route::currentRouteName() ==  'root.place.index') active @endif">
+                <a href="{{ route("root.place.index") }}" class="nav-link ">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    <span class="title">Места</span>
                 </a>
             </li>
 {{--            <li class="nav-item  @if (Route::currentRouteName() ==  'root.setting.index') active @endif">

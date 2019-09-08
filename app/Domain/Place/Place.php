@@ -1,5 +1,5 @@
 <?php
-namespace App\Domain\Hotel;
+namespace App\Domain\Place;
 
 use App\Domain\Book\Book;
 use Carbon\Carbon;
@@ -13,11 +13,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer $id
  * @property string $name
  */
-class Hotel extends Model
+class Place extends Model
 {
-	use SoftDeletes;
-
-   	const ENTITY_TABLE = "hotel";
+   	const ENTITY_TABLE = "place";
 
    	protected $table = self::ENTITY_TABLE;
 

@@ -1,16 +1,20 @@
 <?php
 namespace App\Providers;
 
+use App\Domain\Book\BookRepository;
 use App\Domain\Booking\BookingRepository;
 use App\Domain\Client\ClientRepository;
 use App\Domain\Hotel\HotelRepository;
+use App\Domain\Place\PlaceRepository;
 use App\Domain\Restaurant\RestaurantRepository;
 use App\Domain\Ship\ShipRepository;
 use App\Domain\Attachment\AttachmentRepository;
 use App\Domain\BackendUser\BackendUserRepository;
 use App\Infrastructure\Eloquent\BookingRepositoryEloquent;
+use App\Infrastructure\Eloquent\BookRepositoryEloquent;
 use App\Infrastructure\Eloquent\ClientRepositoryEloquent;
 use App\Infrastructure\Eloquent\HotelRepositoryEloquent;
+use App\Infrastructure\Eloquent\PlaceRepositoryEloquent;
 use App\Infrastructure\Eloquent\RestaurantRepositoryEloquent;
 use App\Infrastructure\Eloquent\ShipRepositoryEloquent;
 use App\Infrastructure\Eloquent\AttachmentRepositoryEloquent;
@@ -43,6 +47,8 @@ class DomainServiceProvider extends ServiceProvider
         $this->app->singleton(AttachmentRepository::class, AttachmentRepositoryEloquent::class);
         $this->app->singleton(HotelRepository::class, HotelRepositoryEloquent::class);
         $this->app->singleton(RestaurantRepository::class, RestaurantRepositoryEloquent::class);
+        $this->app->singleton(BookRepository::class, BookRepositoryEloquent::class);
+        $this->app->singleton(PlaceRepository::class, PlaceRepositoryEloquent::class);
     }
 }
 
