@@ -138,7 +138,7 @@ class BookController extends Controller
 		$book->total_tourists = $request->get("total_tourists");
 		$book->type_type = $request->get("type_type");
 		$book->type_id = $request->get("type_id");
-		$book->is_canceled = $request->get("is_canceled");
+		$book->is_canceled = (bool) $request->get("is_canceled");
 		$book->save();
 
         return new Response([], Response::HTTP_ACCEPTED);
@@ -197,7 +197,7 @@ class BookController extends Controller
 		$book->total_tourists = $request->get("total_tourists");
 		$book->type_type = $request->get("type_type");
 		$book->type_id = $request->get("type_id");
-		$book->is_canceled = $request->get("is_canceled");
+		$book->is_canceled = (bool) $request->get("is_canceled");
 		$book->save();
 
 		return Response::create("", Response::HTTP_CREATED);
