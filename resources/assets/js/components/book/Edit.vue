@@ -19,6 +19,13 @@
                     <div class="portlet-title">
                         <div class="caption">
                             <i class="icon-settings">Запись</i>
+                            <span style="margin-left: 15px">
+                                <toggle-button v-model="book.is_canceled"
+                                               :height="25"
+                                               :width="125"
+                                               :color="{unchecked: '#27ab27', checked: '#E7505A'}"
+                                               :labels="{checked: 'Аннулировано', unchecked: 'Не аннулировано'}"/>
+                            </span>
                         </div>
                         <ul class="nav nav-tabs">
                             <li v-bind:class="tab === 1 ? 'active' : ''">
@@ -164,6 +171,7 @@
                                 :key="new Date().getMilliseconds().toString() + key.toString()"
                                 :program="program"
                                 @remove="removeProgram(key)"
+                                @date-changed="changeDefaultProgramDate"
                             ></edit-program-row>
 
                             <button class="btn btn-success" @click="addNewProgramItem">
@@ -205,6 +213,8 @@
                 book: {
                 },
                 errors: {},
+                defaultProgramDate: {
+                }
             }
         },
         calculate: {
@@ -223,9 +233,16 @@
             this.book.date_of_start = (this.book.date_of_end.split(" "))[0]
             this.book.date_of_end = (this.book.date_of_end.split(" "))[0]
             this.typeIsShip = this.typeIsShipMethod();
+            let lastProgram = this.book.program.slice(-1);
+            if (typeof lastProgram[0] !== "undefined") {
+                this.defaultProgramDate.date = lastProgram[0].date;
+            }
             this.ready = true
         },
         methods: {
+            changeDefaultProgramDate: function (date) {
+                this.defaultProgramDate.date = date;
+            },
             typeIsShipMethod: function () {
                 if (typeof this.book !== "undefined") {
                     return this.book.type_type === 'App\\Domain\\Ship\\Ship'
@@ -238,7 +255,7 @@
             addNewProgramItem: function ()  {
                 this.book.program.push({
                     color: "",
-                    date: "",
+                    date: this.defaultProgramDate.date || "",
                     time: "09:00",
                     place: {
                         dinner: false,

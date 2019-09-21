@@ -15,7 +15,8 @@
                             <button class="color-select-btn" style="background-color: #8eb4e3" @click="choiceColor('8eb4e3')"> </button>
                             <button class="color-select-btn" style="background-color: #92d050" @click="choiceColor('92d050')"> </button>
                             <button class="color-select-btn" style="background-color: #b3a2c7" @click="choiceColor('b3a2c7')"> </button>
-                            <button class="color-select-btn" style="background-color: #e46c0a"@click="choiceColor('e46c0a')"> </button>
+                            <button class="color-select-btn" style="background-color: #e46c0a" @click="choiceColor('e46c0a')"> </button>
+                            <button class="color-select-btn" style="background-color: #ffff00" @click="choiceColor('ffff00')"> </button>
                             <button class="color-select-btn" style="background-color: #ffffff" @click="choiceColor('ffffff')"> </button>
                         </div>
                     </template>
@@ -94,6 +95,7 @@
             },
             changeDate: function (date) {
                 this.program.date = moment(date).format("DD.MM.YYYY");
+                this.$emit("date-changed", moment(date).format("DD.MM.YYYY"))
             },
             changePlace: function (place) {
                 this.program.place.name = place

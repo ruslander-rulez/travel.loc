@@ -92,8 +92,9 @@ Route::group(['middleware' => 'auth.as.admin', "prefix" => "/root", "as" => "roo
 
         Route::get("/list", ["uses" => "BookController@list", "as" => "book.list"]);
         Route::put("/", ["uses" => "BookController@save", "as" => "book.save"]);
-        Route::post("/", ["uses" => "BookController@create", "as" => "book.create"]);
-        Route::delete("/", ["uses" => "BookController@delete", "as" => "book.delete"]);
+		Route::post("/", ["uses" => "BookController@create", "as" => "book.create"]);
+		Route::delete("/", ["uses" => "BookController@delete", "as" => "book.delete"]);
+		Route::put("/change-program-color", ["uses" => "BookController@changeProgramColor", "as" => "book.change-program-color"]);
 	});
 
     Route::group(["prefix" => "/attachment"], function () {

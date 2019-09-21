@@ -118,7 +118,8 @@ class BookController extends Controller
             "driver" => "nullable|string|max:191",
             "guide" => "nullable|string|max:191",
             "notes" => "nullable|string",
-            "program" => "array",
+			"is_canceled" => "bool",
+			"program" => "array",
             "date_of_start" => "required|string|date_format:\"Y-m-d\"",
             "date_of_end" => "required|string|date_format:\"Y-m-d\"",
         ]);
@@ -137,6 +138,7 @@ class BookController extends Controller
 		$book->total_tourists = $request->get("total_tourists");
 		$book->type_type = $request->get("type_type");
 		$book->type_id = $request->get("type_id");
+		$book->is_canceled = $request->get("is_canceled");
 		$book->save();
 
         return new Response([], Response::HTTP_ACCEPTED);
@@ -176,6 +178,7 @@ class BookController extends Controller
 			"guide" => "nullable|string|max:191",
 			"notes" => "nullable|string",
 			"program" => "array",
+			"is_canceled" => "bool",
 			"date_of_start" => "required|string|date_format:\"Y-m-d\"",
 			"date_of_end" => "required|string|date_format:\"Y-m-d\"",
 		]);
@@ -194,6 +197,7 @@ class BookController extends Controller
 		$book->total_tourists = $request->get("total_tourists");
 		$book->type_type = $request->get("type_type");
 		$book->type_id = $request->get("type_id");
+		$book->is_canceled = $request->get("is_canceled");
 		$book->save();
 
 		return Response::create("", Response::HTTP_CREATED);
@@ -207,102 +211,21 @@ class BookController extends Controller
 	public function delete(Request $request)
     {
         $this->validate($request, [
-            "id" => "required|exists:". Booking::ENTITY_TABLE . ",id"
+            "id" => "required|exists:". Book::ENTITY_TABLE . ",id"
         ]);
-        $this->dispatch(new DeleteBooking($request->get("id")));
+
+        Book::query()->where("id", $request->get("id"))->delete();
+
         return new Response([], Response::HTTP_ACCEPTED);
     }
 
-	/**
-	 * @param Request $request
-	 * @return Response
-	 * @throws \Illuminate\Validation\ValidationException
-	 */
-	public function generateTourTickets(Request $request)
+	public function changeProgramColor(Request $request)
 	{
-		$this->validate($request, [
-			"bookingId" => "required|integer|exists:" . Booking::ENTITY_TABLE . ",id",
-			"excludeIds" => "nullable|array",
-			"excludeIds.*" => "integer"
-		]);
-
-		$document = $this->dispatch(new GenerateTourtickets(
-			$request->get("bookingId"),
-			$request->get("excludeIds", [])
-		));
-		return Response::create($document, "200", [
-			"Content-Type" => "application/pdf",
-			"Content-Disposition" =>  'attachment; filename=ticket.pdf'
-		]);
-
+		/** @var Book $book */
+		$book = Book::query()->findOrFail($request->get("bookId"));
+		$program = $book->program;
+		array_set($program, "{$request->programIndex}.color", $request->get("color"));
+		$book->program = $program;
+		$book->save();
 	}
-
-	/**
-	 * @param Request $request
-	 * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-	 * @throws \Illuminate\Validation\ValidationException
-	 */
-	public function generateBorderDocuments(Request $request)
-	{
-		$this->validate($request, [
-			"bookingId" => "required|integer|exists:" . Booking::ENTITY_TABLE . ",id",
-		]);
-
-		$document = $this->dispatch(new GenerateBorderDocuments(
-			$request->get("bookingId")
-		));
-		return \response()->download($document, "Пограничный лист.xlsx")->deleteFileAfterSend();
-
-	}
-
-	public function fromFile(Request $request)
-	{
-		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($request->file()["file"]->getFileInfo()->getRealPath());
-
-		$data = $spreadsheet->getActiveSheet()->toArray();
-		$tourists = collect([]);
-		$arrivalDate = "";
-		$departureDate = "";
-		for ($i=2; $i<count($data); $i++) {
-			try {
-				$arrivalDate = Carbon::createFromFormat("d.m.Y", array_get($data, "{$i}.2"));
-			} catch (\Exception $exception) {
-			}
-			try {
-				$departureDate = Carbon::createFromFormat("d.m.Y", array_get($data, "{$i}.3"));
-			} catch (\Exception $exception) {
-			}
-			$lainerName = array_get($data, "{$i}.4");
-
-			$clientPassport = (string) array_get($data, "{$i}.9");
-			if (!$clientPassport) {
-				continue;
-			}
-			$client = Client::where("passport", "=", $clientPassport)->first();
-			if (!$client) {
-				$client = new Client();
-				$client->passport = $clientPassport;
-				try {
-					$client->birthday = Carbon::createFromFormat("d.m.Y", array_get($data, "{$i}.7"));
-				} catch (\Exception $exception) {
-					$client->birthday = null;
-				}
-				$client->nationality = array_get($data, "{$i}.8");
-				$client->name = array_get($data, "{$i}.5") . " " . array_get($data, "{$i}.6");
-				$client->save();
-			}
-			$tourists->push($client);
-		}
-
-		$ship = Ship::where("name", "=", $lainerName)->first();
-		$booking = new Booking();
-		$booking->id = null;
-		$booking->arrival_date = $arrivalDate->format("Y-m-d");
-		$booking->departure_date = $departureDate->format("Y-m-d");
-		$booking->ship_id = $ship ? $ship->id : null;
-		$booking->ship = $ship ?? null;
-		$booking->tourists = $tourists;
-		return $booking;
-	}
-
 }

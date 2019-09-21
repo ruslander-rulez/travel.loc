@@ -1,6 +1,6 @@
 <template>
     <tr role="row" v-if="ready">
-        <td>
+        <td :class="canceledBook">
             {{ book.id }}
         </td>
         <td>
@@ -34,6 +34,10 @@
                         <td>Дошкольники:</td>
                         <td>{{ book.total_tourists.preschoolers }}</td>
                     </tr>
+                    <tr>
+                        <td><b>ВСЕГО:</b></td>
+                        <td>{{  parseInt(book.total_tourists.adults) + parseInt(book.total_tourists.preschoolers) + parseInt(book.total_tourists.students) + parseInt(book.total_tourists.schoolchildren)}}</td>
+                    </tr>
                 </table>
             </div>
             <div>
@@ -52,6 +56,7 @@
                 v-for="(programRow, index) in book.program"
                 :program="programRow"
                 :key="index"
+                @colorChanged="changeProgramColor(index, programRow)"
             ></program_view_row>
         </td>
         <td>
@@ -105,6 +110,20 @@
         name: "Row",
         props: ['inputEntity'],
         methods: {
+            changeProgramColor: function (index, program) {
+                window.HTTP.put(laroute.route('root.book.change-program-color', {}), {
+                    bookId: this.book.id,
+                    programIndex: index,
+                    color: this.book.program[index].color
+                }).then(response => {
+                }).catch(e => {
+                    let responseErrors = e.response.data.errors;
+                    Object.keys(responseErrors).map((item, index2) => {
+                        this.errors[item] = responseErrors[item]
+                    });
+                    this.errors = Object.assign({}, this.errors);
+                });
+            },
             updated: function (book) {
                 this.book = book;
                 this.$emit("message", "Запись была обновлена")
@@ -119,11 +138,25 @@
                     console.log(e)
                 })
             }
+        },
+        computed: {
+            canceledBook: function () {
+                if (this.book.is_canceled) {
+                    return "canceled-book"
+                }
+                return ""
+            }
         }
     }
 </script>
 
 <style scoped>
+    .canceled-book {
+        background-color: #e7505a;
+    }
+    tr:hover .canceled-book {
+        background-color: #e7505a !important;
+    }
      .actions>* {
          margin: 6px 0;
      }

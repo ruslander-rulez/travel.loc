@@ -34,6 +34,7 @@ class Book extends Model
 
 	protected $casts = [
 		'program' => 'array',
+		"is_canceled" => "boolean",
 		'total_tourists' => 'array',
 	];
 
