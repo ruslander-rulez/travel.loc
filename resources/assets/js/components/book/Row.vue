@@ -36,7 +36,7 @@
                     </tr>
                     <tr>
                         <td><b>ВСЕГО:</b></td>
-                        <td>{{  parseInt(book.total_tourists.adults) + parseInt(book.total_tourists.preschoolers) + parseInt(book.total_tourists.students) + parseInt(book.total_tourists.schoolchildren)}}</td>
+                        <td>{{  totalTourists }}</td>
                     </tr>
                 </table>
             </div>
@@ -145,6 +145,26 @@
                     return "canceled-book"
                 }
                 return ""
+            },
+            totalTourists: function () {
+                let result = 0;
+                let temp = Number(this.book.total_tourists.adults);
+                if (!isNaN(temp)) {
+                    result += temp
+                }
+                temp = Number(this.book.total_tourists.preschoolers);
+                if (!isNaN(temp)) {
+                    result += temp
+                }
+                temp = Number(this.book.total_tourists.students);
+                if (!isNaN(temp)) {
+                    result += temp
+                }
+                temp = Number(this.book.total_tourists.schoolchildren);
+                if (!isNaN(temp)) {
+                    result += temp
+                }
+                return result
             }
         }
     }

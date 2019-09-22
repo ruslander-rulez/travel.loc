@@ -56,14 +56,12 @@
                 return styleObj;
             },
             popoverContent: function () {
-                console.log(typeof  this.program.place.menu);
                 if (typeof this.program.place.menu === "undefined") {
                     return ""
                 }
                 let result = "";
                 for (var item in this.program.place.menu) {
-                    console.log(this.program.place.menu[item].name);
-                    result = this.program.place.menu[item].name + "; "
+                    result = result + this.program.place.menu[item].name + "; "
                 }
                 return result
             }
