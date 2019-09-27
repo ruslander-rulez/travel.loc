@@ -295,7 +295,9 @@
                 this.errors = {};
                 if (this.book.id !== null) {
                     window.HTTP.put(laroute.route('root.book.save', {}), this.book).then(response => {
+
                         if (response.status == 202) {
+                            this.book.program = response.data.program
                             this.$emit("updated", this.book)
                             this.$emit("close")
                         }
@@ -310,6 +312,8 @@
                 else {
                     window.HTTP.post(laroute.route('root.book.create', {}), this.book).then(response => {
                         if (response.status == 201) {
+                            this.book.program = response.data.program
+
                             this.$emit("created")
                             this.$emit("close")
                         }

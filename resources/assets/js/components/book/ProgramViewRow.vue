@@ -1,13 +1,13 @@
 <template>
     <uiv-popover title="Выберите цвет" trigger="manual" v-model="choiceColorPopup" tag="div" class="program-row">
         <div v-bind:style="style" @click="choiceColorPopup = true" v-if="program.place.dinner" v-uiv-popover.hover="{title:'Меню', content: popoverContent}">
-            <div>{{program.date}} {{program.time}}</div>
+            <div>{{program.date}} <b>{{program.time}}</b></div>
             <div>
                 <i class="fa fa-cutlery" aria-hidden="true"></i> {{ program.place.name}}
             </div>
         </div>
         <div v-bind:style="style" @click="choiceColorPopup = true" v-else="program.place.dinner">
-            <div>{{program.date}} {{program.time}}</div>
+            <div>{{program.date}} <b>{{program.time}}</b></div>
             <div>
                 {{ program.place.name}}
             </div>
@@ -52,6 +52,8 @@
                 let styleObj = {};
                 if (this.program.color) {
                     styleObj["background-color"] = "#" + this.program.color
+                } else {
+                    styleObj["background-color"] = "#ffffff"
                 }
                 return styleObj;
             },

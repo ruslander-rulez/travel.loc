@@ -109,7 +109,7 @@ class BookController extends Controller
     public function save(Request $request)
     {
         $this->validate( $request,  [
-            "id" => "required|numeric|exists:" . Booking::ENTITY_TABLE . ",id",
+            "id" => "required|numeric|exists:" . Book::ENTITY_TABLE . ",id",
             "type_type" => "required|string",
             "type_id" => "required|integer",
             "group_name" => "required|string|max:191",
@@ -134,14 +134,14 @@ class BookController extends Controller
 		$book->guide = $request->get("guide");
 		$book->leader_name = $request->get("leader_name");
 		$book->notes = $request->get("notes");
-		$book->program = $request->get("program");
+		$book->program = $this->processProgram($request->get("program", []));
 		$book->total_tourists = $request->get("total_tourists");
 		$book->type_type = $request->get("type_type");
 		$book->type_id = $request->get("type_id");
 		$book->is_canceled = (bool) $request->get("is_canceled");
 		$book->save();
 
-        return new Response([], Response::HTTP_ACCEPTED);
+        return new Response($book, Response::HTTP_ACCEPTED);
     }
 	/**
 	 * @param Request $request
@@ -178,6 +178,8 @@ class BookController extends Controller
 			"guide" => "nullable|string|max:191",
 			"notes" => "nullable|string",
 			"program" => "array",
+			"program.*.date" => "required|date:d.m.Y",
+			"program.*.time" => "required|string",
 			"is_canceled" => "bool",
 			"date_of_start" => "required|string|date_format:\"Y-m-d\"",
 			"date_of_end" => "required|string|date_format:\"Y-m-d\"",
@@ -193,14 +195,14 @@ class BookController extends Controller
 		$book->guide = $request->get("guide");
 		$book->leader_name = $request->get("leader_name");
 		$book->notes = $request->get("notes");
-		$book->program = $request->get("program");
+		$book->program = $this->processProgram($request->get("program", []));
 		$book->total_tourists = $request->get("total_tourists");
 		$book->type_type = $request->get("type_type");
 		$book->type_id = $request->get("type_id");
 		$book->is_canceled = (bool) $request->get("is_canceled");
 		$book->save();
 
-		return Response::create("", Response::HTTP_CREATED);
+		return Response::create($book, Response::HTTP_CREATED);
     }
 
 	/**
@@ -227,5 +229,18 @@ class BookController extends Controller
 		array_set($program, "{$request->programIndex}.color", $request->get("color"));
 		$book->program = $program;
 		$book->save();
+	}
+
+	private function processProgram($program)
+	{
+		foreach ($program as &$programItem) {
+			$carbon = Carbon::createFromFormat("d.m.Y H:i", array_get($programItem, "date") . " " . array_get($programItem, "time"));
+			$programItem["timestamp"] = $carbon->timestamp;
+		}
+		$program = array_sort($program, function ($item) {
+			return $item["timestamp"];
+		});
+
+		return array_values($program);
 	}
 }
