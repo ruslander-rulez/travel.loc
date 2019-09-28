@@ -195,6 +195,10 @@
                     date_of_start: "",
                     date_of_end: "",
                     program: [],
+                    group: {
+                        name: "",
+                        backgroundColor: "ffffff"
+                    },
                     total_tourists: {},
                     type_type: "App\\Domain\\Hotel\\Hotel"
                 },

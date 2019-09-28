@@ -70,10 +70,31 @@
 
                             <div class="form-group row">
                                 <label class="col-md-2 control-label">Название группы</label>
-                                <div class="col-md-10" v-bind:class="errors['group_name'] !== undefined ? 'has-error' : ''">
+                                <div class="col-md-8" v-bind:class="errors['group.name'] !== undefined ? 'has-error' : ''">
                                     <input type="text" class="form-control" placeholder="Название группы"
-                                           v-model="book.group_name">
-                                    <error-block :errors="errors['group_name']" />
+                                           v-model="book.group.name">
+                                    <error-block :errors="errors['group.name']" />
+                                </div>
+                                <div class="col-md-2">
+                                    <uiv-popover title="Выберите цвет" trigger="manual" v-model="groupChoiceColorPopup">
+                                        <button class="color-picker" :style="{ 'background-color': groupChoiceColorButtonBackground}" @click="groupChoiceColorPopup = true"></button>
+                                        <template slot="popover">
+                                            <i
+                                                    @click="groupChoiceColorPopup=false"
+                                                    class="fa fa-close"
+                                                    style="position: absolute; top: 0; right: 0; padding: 5px; cursor: pointer;"
+                                            ></i>
+                                            <div class="color-select-group">
+                                                <button class="color-select-btn" style="background-color: #e6b9b8" @click="choiceColor('e6b9b8')"> </button>
+                                                <button class="color-select-btn" style="background-color: #8eb4e3" @click="choiceColor('8eb4e3')"> </button>
+                                                <button class="color-select-btn" style="background-color: #92d050" @click="choiceColor('92d050')"> </button>
+                                                <button class="color-select-btn" style="background-color: #b3a2c7" @click="choiceColor('b3a2c7')"> </button>
+                                                <button class="color-select-btn" style="background-color: #e46c0a" @click="choiceColor('e46c0a')"> </button>
+                                                <button class="color-select-btn" style="background-color: #ffff00" @click="choiceColor('ffff00')"> </button>
+                                                <button class="color-select-btn" style="background-color: #ffffff" @click="choiceColor('ffffff')"> </button>
+                                            </div>
+                                        </template>
+                                    </uiv-popover>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -131,6 +152,25 @@
                                     <input type="text" class="form-control" placeholder="Гид"
                                            v-model="book.guide">
                                     <error-block :errors="errors['guide']" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-6 row">
+
+                                    <label class="col-md-3 control-label">Контактный телефон</label>
+                                    <div class="col-md-9" v-bind:class="errors['contact_phone'] !== undefined ? 'has-error' : ''">
+                                        <input type="text" class="form-control" placeholder="Контактный телефон"
+                                               v-model="book.contact_phone">
+                                        <error-block :errors="errors['contact_phone']"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 row">
+                                    <label class="col-md-3 control-label">Контактный email</label>
+                                    <div class="col-md-9" v-bind:class="errors['contact_email'] !== undefined ? 'has-error' : ''">
+                                        <input type="text" class="form-control" placeholder="Контактный email"
+                                               v-model="book.contact_email">
+                                        <error-block :errors="errors['contact_email']"/>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -209,6 +249,7 @@
                 tab: 1,
                 ready: false,
                 file: null,
+                groupChoiceColorPopup: false,
                 showNewUsersFormFromFile : false,
                 book: {
                 },
@@ -217,7 +258,10 @@
                 }
             }
         },
-        calculate: {
+        computed: {
+            groupChoiceColorButtonBackground: function () {
+                return "#" + (this.book.group.backgroundColor || "ffffff")
+            }
         },
         watch: {
             book: function () {
@@ -240,6 +284,9 @@
             this.ready = true
         },
         methods: {
+            choiceColor: function (color) {
+                this.$set(this.book.group, "backgroundColor", color)
+            },
             changeDefaultProgramDate: function (date) {
                 this.defaultProgramDate.date = date;
             },
@@ -338,9 +385,35 @@
     .total_tourists_table {
         text-align: left;
     }
-
+    .control-label {
+        margin-top: 7px;
+    }
+    .color-picker {
+        height: 20px;
+        width: 20px;
+        cursor: pointer;
+        background: #00FF00;
+        border-radius: 20px;
+    }
+    .close-button{
+        cursor: pointer;
+        color: red;
+        padding: 6px;
+        font-size: medium;
+        position: absolute;
+        top: -12px;
+        right: -5px;
+    }
+    .color-select-btn {
+        width: 20px;
+        height: 20px;
+        margin: 0 5px;
+    }
 </style>
 <style>
+    .popover {
+        z-index: 10020;
+    }
     .popover.top.fade.in {
         z-index: 10534;
     }

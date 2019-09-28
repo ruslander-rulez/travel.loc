@@ -9,8 +9,8 @@
             <div> {{ book.date_of_end.split(" ")[0]}}</div>
         </td>
         <td class="group">
-            <div>
-                Название группы: {{ book.group_name }}
+            <div :style="groupNameColor">
+                Название группы: {{ book.group.name }}
             </div>
             <div>
                 Имя лидера: {{ book.leader_name }}
@@ -145,6 +145,11 @@
                     return "canceled-book"
                 }
                 return ""
+            },
+            groupNameColor: function () {
+                return {
+                    "background-color": "#" + (this.book.group.backgroundColor || "ffffff")
+                }
             },
             totalTourists: function () {
                 let result = 0;

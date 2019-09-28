@@ -112,7 +112,11 @@ class BookController extends Controller
             "id" => "required|numeric|exists:" . Book::ENTITY_TABLE . ",id",
             "type_type" => "required|string",
             "type_id" => "required|integer",
-            "group_name" => "required|string|max:191",
+			"group" => "required|array",
+			"group.name" => "required|string|max:191",
+			"group.backgroundColor" => "nullable|string|max:6",
+			"contact_phone" => "nullable|string|max:191",
+			"contact_email" => "nullable|string|email|max:191",
             "leader_name" => "required|string|max:191",
             "total_tourists" => "required|array",
             "driver" => "nullable|string|max:191",
@@ -130,7 +134,9 @@ class BookController extends Controller
 		$book->date_of_end = $request->get("date_of_end");
 		$book->date_of_start = $request->get("date_of_start");
 		$book->driver = $request->get("driver");
-		$book->group_name = $request->get("group_name");
+		$book->group = $request->get("group");
+		$book->contact_phone = $request->get("contact_phone");
+		$book->contact_email = $request->get("contact_email");
 		$book->guide = $request->get("guide");
 		$book->leader_name = $request->get("leader_name");
 		$book->notes = $request->get("notes");
@@ -171,7 +177,11 @@ class BookController extends Controller
 		$this->validate( $request,  [
 			"type_type" => "required|string",
 			"type_id" => "required|integer",
-			"group_name" => "required|string|max:191",
+			"group" => "required|array",
+			"group.name" => "required|string|max:191",
+			"group.backgroundColor" => "nullable|string|max:6",
+			"contact_phone" => "nullable|string|max:191",
+			"contact_email" => "nullable|string|email|max:191",
 			"leader_name" => "required|string|max:191",
 			"total_tourists" => "required|array",
 			"driver" => "nullable|string|max:191",
@@ -191,8 +201,10 @@ class BookController extends Controller
 		$book->date_of_end = $request->get("date_of_end");
 		$book->date_of_start = $request->get("date_of_start");
 		$book->driver = $request->get("driver");
-		$book->group_name = $request->get("group_name");
+		$book->group = $request->get("group");
 		$book->guide = $request->get("guide");
+		$book->contact_phone = $request->get("contact_phone");
+		$book->contact_email = $request->get("contact_email");
 		$book->leader_name = $request->get("leader_name");
 		$book->notes = $request->get("notes");
 		$book->program = $this->processProgram($request->get("program", []));
