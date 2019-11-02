@@ -293,11 +293,14 @@ class BookingController extends Controller
 			->chunk(30, function ($bookings) use (&$statistic) {
 				$bookings->each(function ($booking) use (&$statistic) {
 					$touristsTotal = $booking->tourists()->count();
+					$touristsIds = $booking->tourists()->get(["id"])->pluck("id")->all();
 					$tourticketSettings = $booking->tourticket_settings;
 					if (!$tourticketSettings) {
 						return;
 					}
 					foreach ($tourticketSettings as $key => $item) {
+						$excludeIds = array_intersect($touristsIds, array_get($item, "excludeIds", []));
+						$excludeEveningIds = array_intersect($touristsIds, array_get($item, "excludeEveningIds", []));
 						$month = Carbon::createFromFormat("Y-m-d", $key)->format("m");
 						array_set($statistic, $month, [
 							"passenger_flow" => array_get(
@@ -305,12 +308,12 @@ class BookingController extends Controller
 								"{$month}.passenger_flow", 0)
 								+ ($touristsTotal) - count(
 									array_intersect(
-										array_get($item, "excludeIds", []), array_get($item, "excludeEveningIds", [])
+										$excludeIds, $excludeEveningIds
 									)
 								),
 							"passenger_turnover" => array_get(
 								$statistic,
-								"{$month}.passenger_turnover", 0) + $this->calculatePassengerTurnover($item, $touristsTotal)
+								"{$month}.passenger_turnover", 0) + $this->calculatePassengerTurnover($item, $touristsTotal, $excludeIds, $excludeEveningIds)
 						]);
 					}
 				});
@@ -320,14 +323,14 @@ class BookingController extends Controller
 		return view("dashboard.booking.statistic", compact("statistic"));
 	}
 
-	private function calculatePassengerTurnover($tourticketSettings, $touristsTotal)
+	private function calculatePassengerTurnover($tourticketSettings, $touristsTotal, $excludeIds, $excludeEveningIds)
 	{
 		$result = 0;
 
-		$result += (($touristsTotal - count(array_get($tourticketSettings, "excludeIds", []))) * 2);
+		$result += (($touristsTotal - count($excludeIds)) * 2);
 		if (array_get($tourticketSettings, "eveningProgram")) {
 
-			$result += (($touristsTotal - count(array_get($tourticketSettings, "excludeEveningIds", []))) * 2);
+			$result += (($touristsTotal - count($excludeEveningIds)) * 2);
 		}
 		return $result;
 	}
