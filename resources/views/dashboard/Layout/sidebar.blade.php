@@ -61,6 +61,12 @@
                     <span class="title">Корабли</span>
                 </a>
             </li>
+            <li class="nav-item  @if (Route::currentRouteName() ==  'root.ship.index') active @endif">
+                <a href="{{ route("root.booking.statistic") }}" class="nav-link ">
+                    <span aria-hidden="true" class="icon-graph"></span>
+                    <span class="title">Статистика</span>
+                </a>
+            </li>
             <li class="heading">
                 <h3 class="uppercase"></h3>
             </li>

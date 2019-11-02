@@ -282,4 +282,53 @@ class BookingController extends Controller
 		return $booking;
 	}
 
+	public function statistic()
+	{
+		$statistic = [];
+		Booking::query()
+			->where("arrival_date", ">=", Carbon::now()->startOfYear())
+			->where("arrival_date", "<=", Carbon::now()->endOfYear())
+			->orderBy("arrival_date")
+			->with("tourists")
+			->chunk(30, function ($bookings) use (&$statistic) {
+				$bookings->each(function ($booking) use (&$statistic) {
+					$touristsTotal = $booking->tourists()->count();
+					$tourticketSettings = $booking->tourticket_settings;
+					if (!$tourticketSettings) {
+						return;
+					}
+					foreach ($tourticketSettings as $key => $item) {
+						$month = Carbon::createFromFormat("Y-m-d", $key)->format("m");
+						array_set($statistic, $month, [
+							"passenger_flow" => array_get(
+								$statistic,
+								"{$month}.passenger_flow", 0)
+								+ ($touristsTotal) - count(
+									array_intersect(
+										array_get($item, "excludeIds", []), array_get($item, "excludeEveningIds", [])
+									)
+								),
+							"passenger_turnover" => array_get(
+								$statistic,
+								"{$month}.passenger_turnover", 0) + $this->calculatePassengerTurnover($item, $touristsTotal)
+						]);
+					}
+				});
+			});
+		array_set($statistic, "Всего.passenger_flow", array_sum(array_pluck($statistic, "passenger_flow")));
+		array_set($statistic, "Всего.passenger_turnover", array_sum(array_pluck($statistic, "passenger_turnover")));
+		return view("dashboard.booking.statistic", compact("statistic"));
+	}
+
+	private function calculatePassengerTurnover($tourticketSettings, $touristsTotal)
+	{
+		$result = 0;
+
+		$result += (($touristsTotal - count(array_get($tourticketSettings, "excludeIds", []))) * 2);
+		if (array_get($tourticketSettings, "eveningProgram")) {
+
+			$result += (($touristsTotal - count(array_get($tourticketSettings, "excludeEveningIds", []))) * 2);
+		}
+		return $result;
+	}
 }

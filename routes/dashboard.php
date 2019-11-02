@@ -85,6 +85,8 @@ Route::group(['middleware' => 'auth.as.admin', "prefix" => "/root", "as" => "roo
 
 		Route::post("/from-file", ["uses" => "BookingController@fromFile", "as" => "booking.create"]);
 
+		Route::get("/statistic", ["uses" => "BookingController@statistic", "as" => "booking.statistic"]);
+
 	});
 
     Route::group(["prefix" => "/book"], function () {
