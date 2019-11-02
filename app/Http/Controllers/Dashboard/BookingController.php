@@ -306,11 +306,7 @@ class BookingController extends Controller
 							"passenger_flow" => array_get(
 								$statistic,
 								"{$month}.passenger_flow", 0)
-								+ ($touristsTotal) - count(
-									array_intersect(
-										$excludeIds, $excludeEveningIds
-									)
-								),
+								+ $this->calculatePassengerFlow($touristsTotal, $excludeIds, $excludeEveningIds, $item),
 							"passenger_turnover" => array_get(
 								$statistic,
 								"{$month}.passenger_turnover", 0) + $this->calculatePassengerTurnover($item, $touristsTotal, $excludeIds, $excludeEveningIds)
@@ -332,6 +328,23 @@ class BookingController extends Controller
 
 			$result += (($touristsTotal - count($excludeEveningIds)) * 2);
 		}
+		return $result;
+	}
+
+	private function calculatePassengerFlow($touristsTotal, array $excludeIds, array $excludeEveningIds, $tourticketSettings)
+	{
+		$result = 0;
+		if (array_get($tourticketSettings, "eveningProgram")) {
+
+			$result += ($touristsTotal) - count(
+					array_intersect(
+						$excludeIds, $excludeEveningIds
+					)
+				);
+		} else {
+			$result += ($touristsTotal) - count($excludeIds);
+		}
+
 		return $result;
 	}
 }
