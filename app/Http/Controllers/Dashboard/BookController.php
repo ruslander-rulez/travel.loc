@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 
+use App\Application\Book\GenerateProgramDocument;
 use App\Application\Booking\CreateBooking;
 use App\Application\Booking\DeleteBooking;
 use App\Application\Booking\GenerateBorderDocuments;
@@ -126,7 +127,8 @@ class BookController extends Controller
 			"program" => "array",
             "date_of_start" => "required|string|date_format:\"Y-m-d\"",
             "date_of_end" => "required|string|date_format:\"Y-m-d\"",
-        ]);
+			"booking_id" => "nullable|exists:" . Booking::ENTITY_TABLE . ",id"
+		]);
 
 		/** @var Book $book */
 		$book = Book::query()->findOrFail($request->get("id"));
@@ -145,6 +147,8 @@ class BookController extends Controller
 		$book->type_type = $request->get("type_type");
 		$book->type_id = $request->get("type_id");
 		$book->is_canceled = (bool) $request->get("is_canceled");
+		$book->booking_id = $request->get("booking_id");
+
 		$book->save();
 
         return new Response($book, Response::HTTP_ACCEPTED);
@@ -193,6 +197,7 @@ class BookController extends Controller
 			"is_canceled" => "bool",
 			"date_of_start" => "required|string|date_format:\"Y-m-d\"",
 			"date_of_end" => "required|string|date_format:\"Y-m-d\"",
+			"booking_id" => "nullable|exists:" . Booking::ENTITY_TABLE . ",id"
 		]);
 
 		/** @var Book $book */
@@ -212,6 +217,7 @@ class BookController extends Controller
 		$book->type_type = $request->get("type_type");
 		$book->type_id = $request->get("type_id");
 		$book->is_canceled = (bool) $request->get("is_canceled");
+		$book->booking_id = $request->get("booking_id");
 		$book->save();
 
 		return Response::create($book, Response::HTTP_CREATED);
@@ -254,5 +260,26 @@ class BookController extends Controller
 		});
 
 		return array_values($program);
+	}
+
+	/**
+	 * @param Request $request
+	 * @return Response
+	 * @throws \Illuminate\Validation\ValidationException
+	 */
+	public function generateProgram(Request $request)
+	{
+		$this->validate($request, [
+			"bookId" => "required|integer|exists:" . Book::ENTITY_TABLE . ",id",
+		]);
+
+		$document = $this->dispatch(new GenerateProgramDocument(
+			$request->get("bookId")
+		));
+
+		return Response::create($document, "200", [
+			"Content-Type" => "application/pdf",
+			"Content-Disposition" =>  'attachment; filename=program.pdf'
+		]);
 	}
 }

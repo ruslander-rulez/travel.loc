@@ -1,6 +1,7 @@
 <?php
 namespace App\Domain\Book;
 
+use App\Domain\Booking\Booking;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -45,5 +46,10 @@ class Book extends Model
 	public function type()
 	{
 		return $this->morphTo();
+	}
+
+	public function booking()
+	{
+		return $this->belongsTo(Booking::class, "booking_id", "id");
 	}
 }

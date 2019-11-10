@@ -204,6 +204,15 @@
                                     <error-block :errors="errors['ship_id']" />
                                 </div>
                             </div>
+                            <div class="form-group row" v-if="typeIsShip">
+                                <label class="col-md-2 control-label">
+                                    ID бронирования
+                                </label>
+                                <div class="col-md-10" v-bind:class="errors['ship_id'] !== undefined ? 'has-error' : ''">
+                                    <input class="form-control" type="number" min="1" v-model="book.booking_id">
+                                    <error-block :errors="errors['ship_id']" />
+                                </div>
+                            </div>
                         </div>
                         <div class="div" v-if="tab===2">
                             <edit-program-row

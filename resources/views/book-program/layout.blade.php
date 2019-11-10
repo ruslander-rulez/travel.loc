@@ -11,7 +11,20 @@
         *{
             font-family: "DejaVu sans";
             line-height: normal;
-            font-size: 12px;
+        }
+        .internaltable td {
+            border: 1px solid black;
+            padding: 2px 8px;
+            font-size: 13px;
+        }
+        .row{
+            border: none;
+        }
+
+        .page_break { page-break-before: always; }
+
+        #tourists tbody td {
+            padding: 0 4px;
         }
     </style>
 </head>
