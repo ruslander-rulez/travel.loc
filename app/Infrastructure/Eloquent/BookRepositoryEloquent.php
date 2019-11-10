@@ -35,8 +35,11 @@ class BookRepositoryEloquent implements BookRepository
         $qb =  $this->model->newQuery();
 		$qb->where(function ($query) use ($bookFilter) {
 
-			if ($bookFilter->dateOfStart()) {
-				$query->where("date_of_start", ">=", $bookFilter->dateOfStart());
+			if ($bookFilter->dateOfStartFrom()) {
+				$query->where("date_of_start", ">=", $bookFilter->dateOfStartFrom());
+			}
+			if ($bookFilter->dateOfEndTo()) {
+				$query->where("date_of_end", "<=", $bookFilter->dateOfEndTo());
 			}
 		});
 		if ($sort) {

@@ -352,7 +352,7 @@
         mounted() {
             this.perPage = this.perPageVariables[this.perPageVariables.length - 1].val;
             this.filter.dateTo = new Date();
-            this.filter.dateTo.setDate(new Date().getDate() + 200);
+            this.filter.dateTo.setMonth(new Date().getMonth() + 12);
 
             this.filter.dateTo.setHours(23,59,59);
             this.filter.dateFrom = new Date();

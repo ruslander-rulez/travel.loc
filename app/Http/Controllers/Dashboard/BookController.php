@@ -4,23 +4,15 @@ namespace App\Http\Controllers\Dashboard;
 
 
 use App\Application\Book\GenerateProgramDocument;
-use App\Application\Booking\CreateBooking;
-use App\Application\Booking\DeleteBooking;
-use App\Application\Booking\GenerateBorderDocuments;
-use App\Application\Booking\GenerateTourtickets;
 use App\Application\Booking\GetBookingList;
-use App\Application\Booking\UpdateBooking;
 use App\Application\Booking\UpdateBookingColor;
 use App\Domain\Book\Book;
 use App\Domain\Book\BookFilter;
 use App\Domain\Book\BookRepository;
-use App\Domain\Client\Client;
 use App\Domain\Core\Sort;
 use App\Domain\Booking\Booking;
 use App\Domain\Booking\BookingFilter;
 use App\Domain\Core\Pagination;
-use App\Domain\Hotel\Hotel;
-use App\Domain\Ship\Ship;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
@@ -52,13 +44,13 @@ class BookController extends Controller
         ]);
         $filter = new BookFilter();
 
-/*
+
 		if ($request->get("dateFrom")) {
-			$filter->setDepartureDateFrom(Carbon::parse($request->get("dateFrom")));
+			$filter->setDateOfStartFrom(Carbon::parse($request->get("dateFrom")));
 		}
 		if ($request->get("dateTo")) {
-			$filter->setDepartureDateTo(Carbon::parse($request->get("dateTo")));
-		}*/
+			$filter->setDateOfEndTo(Carbon::parse($request->get("dateTo")));
+		}
 
 
 		$sort = new Sort();
