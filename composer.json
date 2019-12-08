@@ -17,7 +17,8 @@
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "lord/laroute": "^2.4",
-        "phpoffice/phpspreadsheet": "^1.6"
+        "phpoffice/phpspreadsheet": "^1.6",
+        "ruslander-rulez/laravel-buisiness-logic-encapsulator": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.4",

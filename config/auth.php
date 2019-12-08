@@ -16,8 +16,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'dashboard',
-        'passwords' => 'users',
+        'guard' => 'web',
+        'passwords' => 'profiles',
     ],
 
     /*
@@ -40,7 +40,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'profiles',
         ],
 
         'dashboard' => [
@@ -76,10 +76,10 @@ return [
             'driver' => 'eloquent',
             'model' => BackendUser::class,
         ],
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+         'profiles' => [
+             'driver' => 'eloquent',
+             "model" => \App\Domain\Profile\Profile::class,
+         ],
     ],
 
     /*
@@ -98,8 +98,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'profiles' => [
+            'provider' => 'profiles',
             'table' => 'password_resets',
             'expire' => 60,
         ],
