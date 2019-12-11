@@ -8,7 +8,7 @@
         <div class="card-header">
             <h3 class="card-title">Chat with administrator</h3>
             <div class="card-tools">
-                <span data-toggle="tooltip" title="3 New Messages" class="badge badge-light">3</span>
+                <span data-toggle="tooltip" title="New Messages" class="badge badge-light">{{ auth()->guard("web")->user()->count_unread_messages }}</span>
 
                 <button type="button" class="btn btn-tool" data-toggle="tooltip" title="Attachments"
                         data-widget="chat-pane-toggle">
