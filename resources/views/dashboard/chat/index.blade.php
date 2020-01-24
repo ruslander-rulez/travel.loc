@@ -28,6 +28,7 @@
                                 <th> Email </th>
                                 <th> Имя </th>
                                 <th> Сообщение </th>
+                                <th> Новые </th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -38,6 +39,7 @@
                                     <td> {{ $conversation->profile->email }} </td>
                                     <td> {{ $conversation->profile->name }} </td>
                                     <td> {{ str_limit($conversation->message) }} </td>
+                                    <td> {{ $conversation->countUnread }} </td>
                                     <td>
                                         <div class="btn-group">
                                             <a href="{{ route("root.chat.details", ["people_id" => $conversation->profile_id]) }}" class="btn btn-sm btn-default">

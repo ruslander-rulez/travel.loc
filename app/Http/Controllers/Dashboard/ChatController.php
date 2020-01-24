@@ -10,9 +10,15 @@ class ChatController extends Controller
 {
 	public function index()
 	{
-		$subQuery = \DB::table("chat_messages")->selectRaw("MAX(id) as last_id_of_conversation")->groupBy("profile_id");
+		$subQuery = \DB::table("chat_messages")->selectRaw("MAX(id) as last_id_of_conversation, count(id) as countUnread")->groupBy("profile_id");
+		$subQueryCount = \DB::table("chat_messages")->selectRaw("count(id) as countUnread")
+			->where("is_read", false)
+			->groupBy("profile_id");
 
-		$conversations = ChatMessage::query()->joinSub($subQuery, "sub", "id", "last_id_of_conversation")->paginate();
+		$conversations = ChatMessage::query()
+			->joinSub($subQuery, "sub", "id", "last_id_of_conversation")
+			->leftJoinSub($subQueryCount, "sub-count", "profile_id", "profile_id")
+			->paginate();
 		return view("dashboard.chat.index", compact("conversations"));
 	}
 
