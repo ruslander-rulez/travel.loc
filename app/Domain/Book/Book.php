@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * App\Domain\Book\Book
+ *
  * @property integer $id
  * @property Carbon $date_of_start
  * @property Carbon $date_of_end
@@ -22,6 +24,41 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property bool $is_canceled
+ * @property string|null $contact_phone
+ * @property string|null $contact_email
+ * @property array|null $group
+ * @property int|null $booking_id
+ * @property-read \App\Domain\Booking\Booking|null $booking
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Domain\Book\Book[] $type
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Domain\Book\Book onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book query()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereBookingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereContactEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereContactPhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereDateOfEnd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereDateOfStart($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereDriver($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereGroup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereGuide($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereIsCanceled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereLeaderName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereProgram($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereTotalTourists($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereTypeType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Book\Book whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Domain\Book\Book withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Domain\Book\Book withoutTrashed()
+ * @mixin \Eloquent
  */
 class Book extends Model
 {

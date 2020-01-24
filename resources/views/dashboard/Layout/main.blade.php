@@ -71,6 +71,9 @@ License: You must have a valid license purchased only from themeforest(the above
         <div class="page-content-wrapper">
             <!-- BEGIN CONTENT BODY -->
             <div class="page-content">
+
+                @include("dashboard.Layout.alerts")
+
                 <!-- BEGIN PAGE HEADER-->
                 <!-- BEGIN THEME PANEL -->
               {{--  @include("dashboard.Layout.theme-panel")--}}

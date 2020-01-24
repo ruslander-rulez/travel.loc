@@ -98,6 +98,24 @@
                     <span class="title">Места</span>
                 </a>
             </li>
+            <li class="heading">
+                <h3 class="uppercase"></h3>
+            </li>
+            <li class="heading">
+                <h3 class="">Чат</h3>
+            </li>
+            <li class="nav-item  @if (Route::currentRouteName() ==  'root.profile.index') active @endif">
+                <a href="{{ route("root.profile.index") }}" class="nav-link ">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <span class="title">Профили</span>
+                </a>
+            </li>
+            <li class="nav-item  @if (Route::currentRouteName() ==  'root.chat.index') active @endif">
+                <a href="{{ route("root.chat.index") }}" class="nav-link ">
+                    <i class="fa fa-comments" aria-hidden="true"></i>
+                    <span class="title">Чат <sup>{{ $countUnreadMessages || "" }}</sup></span>
+                </a>
+            </li>
 {{--            <li class="nav-item  @if (Route::currentRouteName() ==  'root.setting.index') active @endif">
                 <a href="{{ route("root.setting.index") }}" class="nav-link ">
                     <i class="fa fa-cog" aria-hidden="true"></i>
