@@ -101,6 +101,22 @@ Route::group(['middleware' => 'auth.as.admin', "prefix" => "/root", "as" => "roo
 		Route::get('/generate-program', ["uses" => "BookController@generateProgram", "as" => "book.generate-program"]);
 	});
 
+    Route::group(["prefix" => "/profile"], function () {
+        Route::get("/", ["uses" => "ProfileController@index", "as" => "profile.index"]);
+        Route::get("/new", ["uses" => "ProfileController@new", "as" => "profile.new"]);
+        Route::get("/{id}/edit", ["uses" => "ProfileController@edit", "as" => "profile.edit"]);
+        Route::put("/{id}", ["uses" => "ProfileController@update", "as" => "profile.update"]);
+        Route::put("/{id}/password", ["uses" => "ProfileController@updatePassword", "as" => "profile.update.password"]);
+        Route::post("/", ["uses" => "ProfileController@create", "as" => "profile.create"]);
+	});
+
+    Route::group(["prefix" => "/chat"], function () {
+        Route::get("/", ["uses" => "ChatController@index", "as" => "chat.index"]);
+        Route::get("/{profileId}", ["uses" => "ChatController@details", "as" => "chat.details"]);
+		Route::get("/file/{filename}", "ChatController@downloadFile")->name("chat.download-file");
+		Route::post("/{profileId}", "ChatController@sendMessage")->name("chat.send-message");
+	});
+
     Route::group(["prefix" => "/attachment"], function () {
     	//Route::get("/", ["uses" => "AdviceController@index", "as" => "advice.index"]);
 

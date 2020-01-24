@@ -47,6 +47,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
+		'chatMessage' => [
+            'driver' => 'local',
+            'root' => storage_path('app/chat-message'),
+        ],
 
         'public' => [
             'driver' => 'local',

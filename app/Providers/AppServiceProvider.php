@@ -3,11 +3,7 @@
 namespace App\Providers;
 
 use App\Application\Auth\PasswordHasher;
-use App\Domain\Core\GeoService;
-use App\Domain\Core\OrdersAdminSDK;
-use App\Infrastructure\Service\AppGeoService;
 use App\Infrastructure\Service\BcryptPasswordHasher;
-use App\Infrastructure\Service\OrdersAdminSDKService;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 

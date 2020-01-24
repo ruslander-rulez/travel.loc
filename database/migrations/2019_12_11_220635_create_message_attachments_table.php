@@ -13,13 +13,20 @@ class CreateMessageAttachmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('message_attachments', function (Blueprint $table) {
+        Schema::create('chat_message_attachments', function (Blueprint $table) {
             $table->increments('id');
             $table->string("origin_filename");
             $table->string("filename");
             $table->string("mime-type");
             $table->string("storage");
+            $table->unsignedInteger("chat_message_id")->index();
             $table->timestamps();
+
+            $table
+				->foreign("chat_message_id")
+				->on(\App\Domain\ChatMessage\ChatMessage::ENTITY_TABLE)
+				->references("id")
+				->ondelete("cascade");
         });
     }
 
@@ -30,6 +37,6 @@ class CreateMessageAttachmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('message_attachments');
+        Schema::dropIfExists('chat_message_attachments');
     }
 }

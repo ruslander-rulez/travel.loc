@@ -13,6 +13,10 @@
             line-height: normal;
             font-size: 12px;
         }
+        .internaltable td {
+            border: 1px solid black;
+            padding-left: 3px;
+        }
     </style>
 </head>
     <body style="padding: 0px 10px">
