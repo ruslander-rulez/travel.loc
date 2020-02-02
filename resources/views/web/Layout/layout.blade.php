@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ "en" }}">
+<head>
+    @include("web.Layout.partials.head")
+    @section("styles")
+    @show
 
-@include("web.Layout.partials.head")
+</head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
 <div class="wrapper">
@@ -17,5 +21,8 @@
 
 </div>
 @include("web.Layout.partials.foot")
+
+@section("scripts")
+@show
 </body>
 </html>

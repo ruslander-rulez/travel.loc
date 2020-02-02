@@ -1,10 +1,27 @@
 @extends("web.Layout.layout")
 
+@section("styles")
+    <style>
+        .card-custom-color:not(.card-outline) .card-header {
+            background-color: #E0FFFF;
+        }
+
+        .direct-chat-danger .right>.direct-chat-text {
+            background: #E0FFFF;
+            border-color: #E0FFFF;
+            color: #000;
+        }
+        .direct-chat-text {
+            min-height: 36px;
+        }
+    </style>
+@endsection
+
 @section("content")
     <!-- Construct the card with style you want. Here we are using card-danger -->
     <!-- Then add the class direct-chat and choose the direct-chat-* contexual class -->
     <!-- The contextual class should match the card, so we are using direct-chat-danger -->
-    <div class="card card-danger direct-chat direct-chat-danger">
+    <div class="card card-custom-color direct-chat direct-chat-danger">
         <div class="card-header">
             <h3 class="card-title">Chat with administrator</h3>
             <div class="card-tools">
@@ -19,7 +36,7 @@
         <!-- /.card-header -->
         <div class="card-body">
             <!-- Conversations are loaded here -->
-            <div class="direct-chat-messages" style="height: 64vh">
+            <div class="direct-chat-messages" id="messageListBlock" style="height: 64vh">
                 @forelse($messages as $message)
                     @if($message->type === App\Domain\ChatMessage\ChatMessage::TYPE_TO_PROFILE)
                         @include("web.chat.partials.web-chat-message-from-admin")
@@ -67,4 +84,18 @@
         <!-- /.card-footer-->
     </div>
     <!--/.direct-chat -->
+@endsection
+
+@section("scripts")
+    <script>
+        setInterval(function () {
+           $.ajax({
+                url: window.location.href,
+                dataType: "html",
+                success: function (response) {
+                    $("#messageListBlock").html($(response).find("#messageListBlock").html());
+                }
+            });
+        }, 60000)
+    </script>
 @endsection

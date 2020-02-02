@@ -11,13 +11,13 @@ class ChatController extends Controller
 	public function index()
 	{
 		$subQuery = \DB::table("chat_messages")->selectRaw("MAX(id) as last_id_of_conversation, count(id) as countUnread")->groupBy("profile_id");
-		$subQueryCount = \DB::table("chat_messages")->selectRaw("count(id) as countUnread")
+		$subQueryCount = \DB::table("chat_messages")->selectRaw("count(id) as countUnread, profile_id as prof_id")
 			->where("is_read", false)
 			->groupBy("profile_id");
 
 		$conversations = ChatMessage::query()
 			->joinSub($subQuery, "sub", "id", "last_id_of_conversation")
-			->leftJoinSub($subQueryCount, "sub-count", "profile_id", "profile_id")
+			->leftJoinSub($subQueryCount, "sub-count", "prof_id", "profile_id")
 			->paginate();
 		return view("dashboard.chat.index", compact("conversations"));
 	}
@@ -48,11 +48,14 @@ class ChatController extends Controller
 	public function sendMessage($profileId, Request $request)
 	{
 		$this->validate($request, [
-			"message" => "required|string|max:15000",
+			"message" => "nullable|string|max:15000",
 			"files" => "nullable|array",
-			"files.*" => "required|file"
+			"files.*" => "required|file|max:20480"
 		]);
 
+		if (!$request->get("message") && !count($request->file("files",[]))) {
+			return back();
+		}
 		$message = ChatMessage::create([
 			"profile_id" => $profileId,
 			"admin_id" => auth()->guard("dashboard")->user()->id,

@@ -35,11 +35,13 @@ class ChatController extends Controller
 	public function sendMessage(Request $request)
 	{
 		$this->validate($request, [
-			"message" => "required|string|max:15000",
+			"message" => "nullable|string|max:15000",
 			"files" => "nullable|array",
-			"files.*" => "required|file"
+			"files.*" => "required|file|max:20480"
 		]);
-
+		if (!$request->get("message") && !count($request->file("files",[]))) {
+			return back();
+		}
 		$message = ChatMessage::create([
 			"profile_id" => auth()->guard("web")->user()->id,
 			"is_read" => false,

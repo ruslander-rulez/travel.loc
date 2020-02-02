@@ -35,7 +35,7 @@
         .panel-body {
             overflow-y: scroll;
             height: 1000px;
-            max-height: 70vh;
+            max-height: 67vh;
         }
 
         ::-webkit-scrollbar-track {
@@ -131,8 +131,8 @@
                     <form action="{{ route("root.chat.send-message", ["profileId" => $profileId]) }}" method="post"  enctype="multipart/form-data">
                         @csrf
                         <div class="input-group">
-                            <input id="btn-input" type="text" name="message" class="form-control input-sm"
-                                   placeholder="Type your message here...">
+                            <textarea id="btn-input" type="text" name="message" rows="4"  style="max-width: 96%; resize: vertical;" class="form-control"
+                                      placeholder="Type your message here..."></textarea>
                             <span class="input-group-btn">
                                 <button class="btn btn-warning btn-sm" id="btn-chat">
                                     Отправить
