@@ -19,7 +19,7 @@ class CreateChatMessagesTable extends Migration
             $table->unsignedInteger("admin_id")->index()->nullable();
             $table->boolean("is_read");
             $table->string("type");
-            $table->text("message");
+            $table->text("message")->nullable();
             $table->timestamps();
 
             $table

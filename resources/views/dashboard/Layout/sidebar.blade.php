@@ -113,7 +113,7 @@
             <li class="nav-item  @if (Route::currentRouteName() ==  'root.chat.index') active @endif">
                 <a href="{{ route("root.chat.index") }}" class="nav-link ">
                     <i class="fa fa-comments" aria-hidden="true"></i>
-                    <span class="title">Чат <sup>{{ $countUnreadMessages || "" }}</sup></span>
+                    <span class="title">Чат <sup>{{ $countUnreadMessages > 0 ? $countUnreadMessages : "" }}</sup></span>
                 </a>
             </li>
 {{--            <li class="nav-item  @if (Route::currentRouteName() ==  'root.setting.index') active @endif">
