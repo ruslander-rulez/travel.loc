@@ -73,6 +73,7 @@ class ClientController extends Controller
 			"passport" => "required|string|max:191|unique:" . Client::ENTITY_TABLE . ",passport," . $request->get("id"),
             "nationality" => "required|string|max:191",
             "birthday" => "string|date_format:Y-m-d",
+            "notes" => "nullable|string|max:10000",
         ]);
         $this->dispatch(new UpdateClient(
             $request->get("id"),
@@ -81,7 +82,8 @@ class ClientController extends Controller
             $request->get("phone"),
             $request->get("passport"),
             $request->get("nationality"),
-            $request->get("birthday")
+            $request->get("birthday"),
+			$request->get("notes")
         ));
         return new Response([], Response::HTTP_ACCEPTED);
     }
@@ -100,6 +102,7 @@ class ClientController extends Controller
 			"passport" => "required|string|max:191|unique:" . Client::ENTITY_TABLE . ",passport",
 			"nationality" => "required|string|max:191",
 			"birthday" => "string|date_format:Y-m-d",
+			"notes" => "nullable|string|max:10000",
 		]);
 
 
@@ -109,7 +112,8 @@ class ClientController extends Controller
 			 $request->get("phone"),
 			 $request->get("passport"),
 			 $request->get("nationality"),
-			 $request->get("birthday")
+			 $request->get("birthday"),
+			 $request->get("notes")
         ));
          return Response::create($client, Response::HTTP_CREATED);
     }

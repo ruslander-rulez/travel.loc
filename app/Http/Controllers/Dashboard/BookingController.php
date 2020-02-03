@@ -104,7 +104,7 @@ class BookingController extends Controller
             "group_name" => "required|string|max:191",
             "tourticket_settings" => "nullable|array",
             "checklist" => "nullable|array",
-            "additional_info" => "nullable|string|max:191",
+            "additional_info" => "nullable|string|max:10000",
             "arrival_date" => "required|string|date_format:\"Y-m-d\"",
             "departure_date" => "required|string|date_format:\"Y-m-d\"",
 			"tourists" => "array",
@@ -154,7 +154,7 @@ class BookingController extends Controller
         $this->validate( $request,  [
 			"ship_id" => "required|integer|exists:" . Ship::ENTITY_TABLE . ",id",
 			"group_name" => "required|string|max:191",
-			"additional_info" => "nullable|string|max:191",
+			"additional_info" => "nullable|string|max:10000",
 			"arrival_date" => "required|string|date_format:\"Y-m-d\"",
 			"departure_date" => "required|string|date_format:\"Y-m-d\"",
 			"tourticket_settings" => "nullable|array",

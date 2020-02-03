@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $email
  * @property string $phone
  * @property string $passport
+ * @property string|null $notes
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Client\Client newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain\Client\Client newQuery()

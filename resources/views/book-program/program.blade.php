@@ -75,5 +75,14 @@
         @endforeach
         </tbody>
     </table>
+    <div class="page_break"></div>
+    <h1>Примечания</h1>
+    @foreach($book->booking->tourists as $tourist)
+        @if($tourist->notes)
+            <p><b>{{ $tourist->name }}:</b></p>
+            <blockquote>{!! nl2br($tourist->notes) !!}</blockquote>
+            <br>
+        @endif
+    @endforeach
     @endif
 @endsection

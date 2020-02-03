@@ -19,6 +19,7 @@ class UpdateClient implements Command
 	private $passport;
 	private $nationality;
 	private $birthday;
+	private $notes;
 
 	/**
 	 * UpdateAdvice constructor.
@@ -29,6 +30,7 @@ class UpdateClient implements Command
 	 * @param $passport
 	 * @param $nationality
 	 * @param $birthday
+	 * @param $notes
 	 */
     public function __construct(
         $id,
@@ -37,7 +39,8 @@ class UpdateClient implements Command
     	$phone,
     	$passport,
     	$nationality,
-    	$birthday
+    	$birthday,
+		$notes
     ) {
         $this->id = $id;
 		$this->name = $name;
@@ -46,6 +49,7 @@ class UpdateClient implements Command
 		$this->passport = $passport;
 		$this->nationality = $nationality;
 		$this->birthday = $birthday;
+		$this->notes = $notes;
 	}
 
     /**
@@ -102,5 +106,13 @@ class UpdateClient implements Command
 	public function birthday()
 	{
 		return $this->birthday;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function notes()
+	{
+		return $this->notes;
 	}
 }

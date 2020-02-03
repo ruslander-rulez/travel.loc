@@ -19,7 +19,7 @@ class CreateBookingTable extends Migration
             $table->unsignedInteger("leader_id")->index()->nullable();
             $table->string("group_name")->nullable();
             $table->string("color");
-            $table->string("additional_info")->nullable();
+            $table->text("additional_info")->nullable();
             $table->boolean("evening_program")->default(0);
 			$table->date("arrival_date");
 			$table->date("departure_date");

@@ -63,8 +63,11 @@
                             <div class="form-group row">
                                 <label class="col-md-2 control-label">Доп. инфо</label>
                                 <div class="col-md-10" v-bind:class="errors['additional_info'] !== undefined ? 'has-error' : ''">
-                                    <input type="text" class="form-control" placeholder="Доп. инфо"
-                                           v-model="booking.additional_info">
+                                    <textarea
+                                            class="form-control"
+                                            placeholder="Доп. инфо"
+                                            v-model="booking.additional_info"
+                                            rows="3" style="resize: vertical"></textarea>
                                     <error-block :errors="errors['additional_info']" />
                                 </div>
                             </div>
@@ -358,6 +361,13 @@
             }, {
                 deep: true
             })
+        },
+        watch: {
+            'booking.additional_info': function (newval, oldval) {
+                if (_.endsWith(newval, ".")) {
+                    this.booking.additional_info += '\n';
+                }
+            }
         },
         methods: {
             openEditClientForm: function(index, tourist) {

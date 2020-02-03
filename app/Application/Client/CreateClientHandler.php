@@ -39,6 +39,7 @@ class CreateClientHandler implements Handler
 		$client->passport = $command->passport();
 		$client->nationality = $command->nationality();
 		$client->birthday = $command->birthday();
+		$client->notes = $command->notes();
 
         $this->clientRepository->store($client);
 

@@ -32,9 +32,9 @@
         <td> {{ booking.arrival_date}}</td>
         <td> {{ booking.departure_date}}</td>
         <td>
-            <ul>
+            <ol>
                 <li v-for="tourist in booking.tourists">{{ tourist.name }}</li>
-            </ul>
+            </ol>
         </td>
         <td class="actions">
             <button class="btn btn-sm btn-default" v-on:click="editPopup=true" title="Редактировать">

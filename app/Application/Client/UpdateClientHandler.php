@@ -39,6 +39,7 @@ class UpdateClientHandler implements Handler
         $client->passport = $command->passport();
         $client->nationality = $command->nationality();
         $client->birthday = $command->birthday();
-        $this->clientRepository->store($client);
+		$client->notes = $command->notes();
+		$this->clientRepository->store($client);
     }
 }

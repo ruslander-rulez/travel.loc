@@ -64,6 +64,14 @@
                                 <error-block :errors="errors['birthday']" />
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 control-label">Примечания</label>
+                            <div class="col-md-10" v-bind:class="errors['notes'] !== undefined ? 'has-error' : ''">
+                                <textarea type="text" class="form-control" placeholder="Примечания"
+                                          v-model="client.notes" style="resize: vertical" rows="6"></textarea>
+                                <error-block :errors="errors['notes']" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

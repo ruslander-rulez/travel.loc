@@ -15,6 +15,7 @@ class CreateClient implements Command
 	private $passport;
 	private $nationality;
 	private $birthday;
+	private $notes;
 
 	/**
 	 * @param $name
@@ -23,6 +24,7 @@ class CreateClient implements Command
 	 * @param $passport
 	 * @param $nationality
 	 * @param $birthday
+	 * @param $notes
 	 */
 	public function __construct(
 		$name,
@@ -30,7 +32,8 @@ class CreateClient implements Command
 		$phone,
 		$passport,
 		$nationality,
-		$birthday
+		$birthday,
+		$notes
 	) {
 		$this->name = $name;
 		$this->email = $email;
@@ -38,6 +41,7 @@ class CreateClient implements Command
 		$this->passport = $passport;
 		$this->nationality = $nationality;
 		$this->birthday = $birthday;
+		$this->notes = $notes;
 	}
 
 	/**
@@ -86,5 +90,13 @@ class CreateClient implements Command
 	public function birthday()
 	{
 		return $this->birthday;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function notes()
+	{
+		return $this->notes;
 	}
 }
