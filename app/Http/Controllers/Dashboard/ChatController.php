@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Domain\ChatMessage\ChatMessage;
 use App\Domain\ChatMessageAttachment\ChatMessageAttachment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ChatController extends Controller
 {
@@ -42,7 +43,7 @@ class ChatController extends Controller
 	public function downloadFile($filename, Request $request)
 	{
 		$file = ChatMessageAttachment::query()->where("filename", $filename)->with("message")->firstOrFail();
-		return \Storage::disk($file->storage)->download($file->filename, $file->origin_filename);
+		return \Storage::disk($file->storage)->download($file->filename, Str::ascii($file->origin_filename));
 	}
 
 	public function sendMessage($profileId, Request $request)

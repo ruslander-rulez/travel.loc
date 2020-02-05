@@ -7,6 +7,7 @@ use App\Domain\ChatMessage\ChatMessage;
 use App\Domain\ChatMessageAttachment\ChatMessageAttachment;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ChatController extends Controller
 {
@@ -72,6 +73,6 @@ class ChatController extends Controller
 			abort(404);
 		}
 
-		return \Storage::disk($file->storage)->download($file->filename, $file->origin_filename);
+		return \Storage::disk($file->storage)->download($file->filename, Str::ascii($file->origin_filename));
 	}
 }
