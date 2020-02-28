@@ -80,12 +80,12 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Новый пароль</label>
                                 <div class="col-md-4">
-                                    <input type="password" name="password" class="form-control spinner input-circle" placeholder="Password"> </div>
+                                    <input type="text" name="password" class="form-control spinner input-circle" placeholder="Password"> </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Подтвержждение</label>
                                 <div class="col-md-4">
-                                    <input type="password" name="password_confirmation" class="form-control spinner input-circle" placeholder="Password"> </div>
+                                    <input type="text" name="password_confirmation" class="form-control spinner input-circle" placeholder="Password"> </div>
                             </div>
                         </div>
 
@@ -93,6 +93,7 @@
                             <div class="row">
                                 <div class="col-md-offset-3 col-md-9">
                                     <button type="submit" class="btn btn-sm green">Сменить пароль <i class="fa fa-save"></i></button>
+                                    <button class="btn btn-sm white" id="generate-new-password">Сгенерировать <i class="fa fa-random" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -102,4 +103,23 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section("scripts")
+    <script>
+        function makepassword(length) {
+            var result           = '';
+            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for ( var i = 0; i < length; i++ ) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+        $("#generate-new-password").click(function (e) {
+            e.preventDefault()
+            let password = makepassword(10);
+            $("[name='password'], [name='password_confirmation']").val(password)
+        })
+    </script>
 @endsection
